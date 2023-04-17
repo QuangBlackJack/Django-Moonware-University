@@ -1,0 +1,629 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- css -->
+<pages-css>
+    <style>
+        /* round box css */
+        .round-box {
+            border-radius: 999px;
+            padding: 5px;
+        }
+
+        /* table */
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            /* border: 1px solid #dddddd; */
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            /* background-color: #dddddd; */
+        }
+
+
+
+        .table-head {
+            background-color: #38C68B;
+        }
+
+        .table-body {
+            color: #38C68B;
+        }
+
+        .sortLink {
+            color: #38C68B;
+        }
+
+        .sortLink:hover {
+            color: #000;
+            background-color: #38C68B;
+        }
+
+        .table-button {
+            background-color: rgba(0, 0, 0, 0);
+            color: #38C68B;
+            width: fit-content;
+            border: #38C68B 2px solid;
+        }
+
+        .table-button:hover {
+            color: #000000;
+            width: fit-content;
+            background-color: #38C68B;
+        }
+
+        .backgroundImage {
+            width: 100%;
+            height: auto;
+        }
+
+        @media screen and (max-width: 1130px) {
+            .backgroundImage {
+                width: auto;
+                height: 100%;
+            }
+        }
+
+        /* main content of this page */
+        .mainContent {
+            position: absolute;
+            width: 100%;
+            height: fit-content;
+            top: 0;
+            padding: 3%;
+            padding-top: 50px;
+            margin-top: 50px;
+        }
+
+        /* css for form */
+        .form {
+            background-color: rgba(0, 0, 0, 0.719);
+            width: 60%;
+            border: #38C68B 3px solid;
+            color: #38C68B;
+            padding: 20px;
+            position: relative;
+        }
+
+        @media screen and (max-width: 1000px) {
+            .form {
+                background-color: rgba(0, 0, 0, 0.719);
+                width: 80%;
+                border: #38C68B 3px solid;
+                color: #38C68B;
+                padding: 20px;
+                position: relative;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .form {
+                background-color: rgba(0, 0, 0, 0.719);
+                width: 90%;
+                border: #38C68B 3px solid;
+                color: #38C68B;
+                padding: 20px;
+                position: relative;
+            }
+        }
+
+        /* base css for input feild */
+        .baseInput {
+            position: absolute;
+            left: 0;
+            background-color: rgb(41, 41, 41);
+            border: #38C68B 2px solid;
+            color: #38C68B;
+            width: 85%;
+        }
+
+        @media screen and (max-width: 700px) {
+            .baseInput {
+                position: absolute;
+                left: 0;
+                background-color: rgb(41, 41, 41);
+                border: #38C68B 2px solid;
+                color: #38C68B;
+                width: 80%;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .baseInput {
+                position: relative;
+                width: 100%;
+                left: 0;
+                background-color: rgb(41, 41, 41);
+                border: #38C68B 2px solid;
+                color: #38C68B;
+            }
+        }
+
+        /* css for image line */
+        .imageLine {
+            position: relative;
+            margin-top: 70px;
+        }
+
+        @media screen and (max-width: 500px) {
+            .imageLine {
+                position: relative;
+                margin-top: 0px;
+            }
+        }
+
+        /* image line label */
+        .lineLabel {
+            margin-top: 5px;
+            position: absolute;
+            top: 0;
+        }
+
+        @media screen and (max-width: 500px) {
+            .lineLabel {
+                margin-top: 5px;
+                position: relative;
+                top: 0;
+            }
+        }
+
+        /* css for all input container */
+        .allInpuContainer {
+            margin-top: 20px;
+        }
+
+        @media screen and (max-width: 500px) {
+            .allInpuContainer {
+                margin-top: 0px;
+            }
+        }
+
+        /* black layer background for form */
+        .blackLayerForm {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.589);
+            position: fixed;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .xButton {
+            width: 30px;
+            height: 30px;
+            background-color: #38C68B;
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: black;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        /* image upload 2 */
+        .image2 {
+            width: fit-content;
+            height: fit-content;
+            position: absolute;
+            top: 0;
+            margin-left: 10px;
+        }
+
+        @media screen and (max-width: 500px) {
+            .image2 {
+                width: fit-content;
+                height: fit-content;
+                position: absolute;
+                top: 0;
+                margin-left: 10px;
+                margin-top: 23px;
+            }
+        }
+    </style>
+</pages-css>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- main body -->
+<div id="body" style="height: 100vh; width: 100%; min-height: 100vh;">
+    <!-- background -->
+    <div
+        style="width: 100%; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; position: fixed;">
+        <!-- black layer -->
+        <div style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.548); position: absolute;">
+        </div>
+
+        <!-- back ground -->
+
+        <img id="backgroundImage" class="backgroundImage"
+            src="{% static 'images/untitled_cyberpunk_girl_79af61d0-e7ed-4821-8a01-de98d57d7ff6.png' %}" alt="">
+
+
+    </div>
+
+    <!-- main holder -->
+    <div id="mainContent" class="mainContent">
+        <div style="margin-top: 20px; font-size: 20px;">
+            <table id="table">
+                <tr class="table-head">
+                    <th>What news?</th>
+                    <th></th> 
+                    <th></th> 
+                    <th></th> 
+                </tr>
+                {% if notifications %}
+                    {% for notification in notifications %}
+                        {% if notification.pinned == True %}
+                            <tr data-aos="fade-right" class="table-body" style="background-color: #09633d4d;">
+                                <td>{{ notification.title }}</td>
+                                <td><a href="../postDetail/{{notification.post.id}}"><button class="rounded table-button">Watch</button></a></td>
+                                <td><button class="rounded table-button">Delete</button></td>
+                                <td><a href="../unPinNotificate/{{notification.id}}"><button class="rounded table-button">Unpin</button></a></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+               {% endif %}
+
+                {% if notifications %}
+                    {% for notification in notifications %}
+                        {% if notification.pinned != True %}
+                            <tr data-aos="fade-right" class="table-body">
+                                <td>{{ notification.title }}</td>
+                                <td><a href="../postDetail/{{notification.post.id}}"><button class="rounded table-button">Watch</button></a></td>
+                                <td><button class="rounded table-button">Delete</button></td>
+                                <td><a href="../pinNotificate/{{notification.id}}"><button class="rounded table-button">Pin</button></a></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+               {% endif %}
+
+
+
+
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- scripts -->
+<!-- pop-up create new && ajust elements -->
+<script>
+    var popUpCreateNew = document.getElementById("popUpCreateNew");
+
+    popUpCreateNew.style.opacity = 0;
+    popUpCreateNew.style.display = "block";
+
+    setTimeout(function () {
+        popUpCreateNew.style.display = "none";
+    }, 1000);
+
+    function createNew() {
+        popUpCreateNew.style.opacity = 1;
+        popUpCreateNew.style.display = "block";
+    }
+
+    function createNewOff() {
+        popUpCreateNew.style.display = "none";
+    }
+
+</script>
+
+<!-- script to set height of all elements equal to height of table -->
+<script>
+    var body = document.getElementById("body");
+    var mainContent = document.getElementById("mainContent");
+
+    var goldenNumber = window.innerWidth / window.innerHeight;
+    var silverNumber = 7 / 4;
+    var backgroundImage = document.getElementById("backgroundImage");
+
+    // change on load
+    window.addEventListener('load', function () {
+        body.style.height = 1.5 * mainContent.clientHeight + "px";
+    });
+    // change on resize
+    window.addEventListener("resize", function () {
+        body.style.height = 1.5 * mainContent.clientHeight + "px";
+    });
+</script>
+
+<!-- [ultra supa update] make background responsive fit with all screen, even TV or smart watch Seeeeesssshh! -->
+<script>
+    var silverNumber = 7 / 4;
+    var backgroundImage = document.getElementById("backgroundImage");
+
+    // change on load
+    window.addEventListener('load', function () {
+        var goldenNumber = window.innerWidth / window.innerHeight;
+        if (goldenNumber >= silverNumber) {
+            backgroundImage.style.width = 100 + "%";
+            backgroundImage.style.height = "auto";
+        } else {
+            backgroundImage.style.width = "auto";
+            backgroundImage.style.height = 100 + "%";
+        }
+    });
+    // change on resize
+    window.addEventListener("resize", function () {
+        var goldenNumber = window.innerWidth / window.innerHeight;
+        if (goldenNumber >= silverNumber) {
+            backgroundImage.style.width = 100 + "%";
+            backgroundImage.style.height = "auto";
+        } else {
+            backgroundImage.style.width = "auto";
+            backgroundImage.style.height = 100 + "%";
+        }
+    });
+</script>
+
+<!-- script for upload image 1 -->
+<script>
+    imageInput1.onchange = evt => {
+        // delare variables
+        var imageLine = document.getElementById("imageLine");
+        var imageLabel1 = document.getElementById("imageLabel1");
+        var image1 = document.getElementById("image1");
+
+        // setting up image
+        const [file] = imageInput1.files;
+        if (file) {
+            // setting environment
+            imageLabel1.style.width = 100 + "px";
+            imageLabel1.style.height = 100 + "px";
+            imageLabel1.style.overflow = "hidden";
+            imageLabel1.style.border = "2px solid #38C68B"
+            imageLine.style.height = 150 + "px";
+
+            // setting image
+            image1.src = URL.createObjectURL(file);
+            image1.style.height = 100 + "%";
+            image1.style.width = 100 + "%";
+        }
+    }
+
+
+</script>
+
+<!-- script for upload image 2 -->
+<script>
+    imageInput2.onchange = evt => {
+        // delare variables
+        var imageLine = document.getElementById("imageLine");
+        var imageLabel2 = document.getElementById("imageLabel2");
+        var image2 = document.getElementById("image2");
+
+        // setting up image
+        const [file] = imageInput2.files;
+        if (file) {
+            // setting environment
+            imageLabel2.style.width = 100 + "px";
+            imageLabel2.style.height = 100 + "px";
+            imageLabel2.style.overflow = "hidden";
+            imageLabel2.style.border = "2px solid #38C68B"
+            imageLine.style.height = 150 + "px";
+
+            // setting image
+            image2.src = URL.createObjectURL(file);
+            image2.style.height = 100 + "%";
+            image2.style.width = 100 + "%";
+        }
+    }
+</script>
+
+<!-- script for upload pdf file -->
+<script>
+    var pdfUpload = document.getElementById("pdfUpload");
+    var pdfName = document.getElementById("pdfName");
+
+    pdfUpload.onchange = function (evt) {
+        // declare variables
+        var pdfFileName = pdfUpload.files[0].name;
+
+        pdfName.innerHTML = pdfFileName;
+    };
+</script>
+
+<!-- margin for all item in create section -->
+<script>
+    const marginCreate = document.querySelectorAll('.marginCreate');
+    var descriptionLabel = document.getElementById("descriptionLabel");
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 500) {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = 0 + "px";
+            });
+        } else {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = descriptionLabel.clientWidth + 10 + "px";
+            });
+        }
+    });
+    // change on resize
+    window.addEventListener("resize", function () {
+        if (window.innerWidth <= 500) {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = 0 + "px";
+            });
+        } else {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = descriptionLabel.clientWidth + 10 + "px";
+            });
+        }
+    });
+</script>
+
+<!-- setting width for input feild -->
+<script>
+    const inputCreate = document.querySelectorAll('.inputCreate');
+    var form = document.getElementById("form");
+    var descriptionLabel = document.getElementById("descriptionLabel");
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 500) {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = 100 + "%";
+            });
+        } else {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = form.clientWidth - descriptionLabel.clientWidth - 40 + "px";
+            });
+        }
+    });
+    // change on resize 
+    window.addEventListener("resize", function () {
+        if (window.innerWidth <= 500) {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = 100 + "%";
+            });
+        } else {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = form.clientWidth - descriptionLabel.clientWidth - 40 + "px";
+            });
+        }
+    });
+
+</script>
+
+<!-- remove d-inline when screen change uploadContainer-->
+<script>
+    const uploadContainer = document.querySelectorAll('.uploadContainer');
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 500) {
+            uploadContainer.forEach((uploadContainer) => {
+                uploadContainer.classList.remove("d-inline");
+            });
+        }
+    });
+    // change on resize 
+    window.addEventListener("resize", function () {
+        if (window.innerWidth <= 500) {
+            uploadContainer.forEach((uploadContainer) => {
+                uploadContainer.classList.remove("d-inline");
+            });
+        }
+    });
+</script>
+
+
+{% endblock %}

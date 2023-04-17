@@ -1,0 +1,715 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- css -->
+<pages-css>
+    <style>
+        .round-box {
+            border-radius: 999px;
+        }
+
+        .formCustom {
+            height: fit-content;
+            width: 350px;
+            border: 3px solid #38C68B;
+            background: rgba(0, 0, 0, 0.692);
+            padding: 10px;
+            color: #38C68B;
+            margin-left: 40px;
+        }
+
+        @media screen and (max-width: 460px) {
+            .formCustom {
+                height: fit-content;
+                width: 90%;
+                border: 3px solid #38C68B;
+                background: rgba(0, 0, 0, 0.692);
+                padding: 10px;
+                color: #38C68B;
+                margin-left: 0px;
+            }
+        }
+
+        .formContainer {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            z-index: 1;
+            position: absolute;
+        }
+
+        @media screen and (max-width: 460px) {
+            .formContainer {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1;
+                position: absolute;
+            }
+        }
+
+        /* switch youtube */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 55px;
+            height: 27px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(204, 204, 204, 0);
+            border: #38C68B 2px solid;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #38C68B;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider:before {
+            background-color: #161616;
+        }
+
+        input:checked+.slider {
+            background-color: #38C68B;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .mainContainer {
+            padding: 50px;
+            position: relative;
+            z-index: 2;
+            color: #38C68B;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding-top: 100px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .mainContainer {
+                padding: 20px;
+                position: relative;
+                z-index: 2;
+                color: #38C68B;
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                padding-top: 100px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .mainContainer {
+                padding: 10px;
+                position: relative;
+                z-index: 2;
+                color: #38C68B;
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                padding-top: 100px;
+            }
+        }
+
+        .table-button {
+            background-color: rgba(0, 0, 0, 0);
+            color: #38C68B;
+            width: fit-content;
+            border: #38C68B 2px solid;
+        }
+
+        .table-button:hover {
+            color: #000000;
+            width: fit-content;
+            background-color: #38C68B;
+        }
+    </style>
+</pages-css>
+
+
+
+
+<!-- pop up -->
+<div id="biggerImg"></div>
+
+
+
+
+<!-- main body -->
+<div style=" width: 100%; min-height: 100vh; z-index: 0; position: relative;">
+    <!-- black layer -->
+    <div style=" background-color: rgba(0, 0, 0, 0.685); position: fixed; z-index: 1; width: 100%; height: 100%;">
+    </div>
+
+    <!-- background img -->
+    <div
+        style="width: 100%; height: 100%; overflow: hidden; position: fixed; display: flex; justify-content: center; align-items: center;">
+        <img id="backgroundImange" style="width: 100%; height: auto;"
+            src="{% static 'images/untitled_cyberpunk_girl_79af61d0-e7ed-4821-8a01-de98d57d7ff6.png' %}" alt="">
+    </div>
+
+    <!-- main layer -->
+    <div class="mainContainer">
+        <div style="width: 100%;">
+            {% if posts %}
+            <!-- post imgs and some infos -->
+            <div class="row" style="margin: 0; width: 100%;">
+                <!-- main to show -->
+                <div data-aos="fade-right" class="col-md-6" style="padding: 0;">
+                    <div onclick="openDetail()" class="mainImgContainer rounded" id="mainImgContainer"
+                        style="width: 100%; border: #38C68B 3px solid; background-color: rgba(0, 0, 0, 0.637); display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative;">
+                        {% if posts.fistImage.img.url != null %}
+                            <img id="mainImg" class="mainImg" style="width: 100%;" src="{{ posts.fistImage.img.url }}"
+                                alt="">
+                        {% else %}
+                            <img id="mainImg" class="mainImg" style="width: 100%;" src="{% static 'images/noImage.png' %}"
+                                alt="">
+                        {% endif %}
+                        <div id="youTubePlayer" style="position: absolute; width: 100%; height: 100%;"></div>
+                    </div>
+                </div>
+
+                <!-- sub to show -->
+                <div data-aos="fade-left" class="col-md-6">
+                    <div style="width: 100%; display: grid; grid-template-columns: repeat(2, 1fr);">
+                        <div style="padding: 5px;">
+                            {% if posts.fistImage.img.url != null %}
+                                <div onclick="watchThis('{{ posts.fistImage.img.url }}')" class="mainImgContainer rounded"
+                                    style="border: #38C68B 2px solid; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.637);">
+                                    <img class="mainImg clickableImg" style="width: 100%;"
+                                        src="{{ posts.fistImage.img.url }}" alt="">
+                                </div>
+                            {% else %}
+                                <div onclick="watchThis(`{% static 'images/noImage.png' %}`)" class="mainImgContainer rounded"
+                                style="border: #38C68B 2px solid; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.637);">
+                                    <img class="mainImg clickableImg" style="width: 100%;"
+                                        src="{% static 'images/noImage.png' %}" alt="">
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div style="padding: 5px;">
+                            {% if posts.secondImage.img.url != null %}
+                                <div onclick="watchThis('{{ posts.secondImage.img.url }}')" class="mainImgContainer rounded"
+                                    style="width: 100%; border: #38C68B 2px solid; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.637);">
+                                    <img class="mainImg clickableImg" style="width: 100%;"
+                                        src="{{ posts.secondImage.img.url }}" alt="">
+                                </div>
+                            {% else %}
+                                <div onclick="watchThis(`{% static 'images/noImage.png' %}`)" class="mainImgContainer rounded"
+                                style="width: 100%; border: #38C68B 2px solid; overflow: hidden; display: flex; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.637);">
+                                    <img class="mainImg clickableImg" style="width: 100%;"
+                                        src="{% static 'images/noImage.png' %}" alt="">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div style="color: #38C68B; margin-top: 10px;">
+                        <div>
+                            <strong>Author: </strong> {{posts.user.username}}
+                        </div>
+                        <div>
+                            <strong>Season: </strong> {{posts.season.title}}
+                        </div>
+                        <div>
+                            <strong>Views: </strong> {{ posts.views }}
+                        </div>
+                        <div>
+                            <strong>Likes: </strong> {{ posts.likes }}
+                        </div>
+                        <div>
+                            <strong>Dislikes: </strong> {{ posts.dislikes }}
+                        </div>
+                        <div>
+                            <strong>Submit date: </strong> {{ posts.date }}
+                        </div>
+                        <div>
+                            <strong>Comments: </strong> {{ commentNumb }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- other infor -->
+            <div data-aos="fade-up" class="rounded"
+                style="height: fit-content; padding: 10px; background-color: rgba(0, 0, 0, 0.637); border: #38C68B 2px solid; margin-top: 20px; color: #38C68B; overflow-x: scroll;">
+                <!-- description -->
+                <div>
+                    <div><strong>Description:</strong></div>
+                    <div style="margin-left: 20px;">{{ posts.content }}</div>
+                </div>
+
+                <!-- youtube -->
+                {% if posts.youTube %}
+                    <div style="margin-top: 10px;" id="YoutubeAction" class="row">
+                        <div class="col-auto"><strong>Youtube:</strong> <a style="color: #38C68B;">{{ posts.youTube }}</a>
+                        </div>
+
+                        <label style="margin-left: 10px;" class="switch" class="col">
+                            <input onclick="callYoutube()" id="callYoutube" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                {% endif %}
+
+                <!-- pdf file -->
+                {% if posts.pdf %}
+                    <div style="margin-top: 10px;">
+                        <div><strong>Download PDF:</strong> <a href="../../{{ posts.pdf }}" style="color: #38C68B;">Download
+                                me</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- tag -->
+                <div style="margin-top: 10px;">
+                    Tags: 
+                    {% for tagLink in tagLinks %}
+                        <a style="padding: 1px;" href="../../showByTag/{{ tagLink.tag.id }}"><button class="round-box table-button">{{ tagLink.tag.name }}</button></a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- action (like, dislike, comment) -->
+            {% if posts.season.secondDeadline > accessOn %}
+            <div data-aos="fade-left" style="margin-top: 20px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <!-- like -->
+                        <th>
+                            <form action="../../likeOrDislike/" method="get">
+                                <input name="postId" type="hidden" value="{{ posts.id }}">
+                                <input name="like" type="hidden" value="1">
+                                <input name="dislike" type="hidden" value="0">
+                                {% if likes.like == False %}
+                                <button type="submit" class="rounded-circle"
+                                    style="padding: 5px; border: #38C68B 2px solid; width: fit-content; background-color: rgba(0, 0, 0, 0.637);">
+                                    <img style="width: 25px; height: 25px;" src="{% static 'images/like.png' %}" alt="">
+                                    {% else %}
+                                    <button type="submit" class="rounded-circle"
+                                        style="padding: 5px; border: #3a3a3a 2px solid; width: fit-content; background-color: #38C68B;">
+                                        <img style="width: 25px; height: 25px;"
+                                            src="{% static 'images/likeChecked.png' %}" alt="">
+                                    </button>
+                                    {% endif %}
+                            </form>
+                        </th>
+                        <!-- dislike -->
+                        <th>
+                            <form action="../../likeOrDislike/" method="get">
+                                <input name="postId" type="hidden" value="{{ posts.id }}">
+                                <input name="like" type="hidden" value="0">
+                                <input name="dislike" type="hidden" value="1">
+                                {% if likes.dislike == False %}
+                                <button type="submit" class="rounded-circle"
+                                    style="padding: 5px; border: #38C68B 2px solid; width: fit-content; background-color: rgba(0, 0, 0, 0.637);">
+                                    <img style="width: 25px; height: 25px;" src="{% static 'images/dislike.png' %}"
+                                        alt="">
+                                    {% else %}
+                                    <button type="submit" class="rounded-circle"
+                                        style="padding: 5px; border: #3a3a3a 2px solid; width: fit-content; background-color: #38C68B;">
+                                        <img style="width: 25px; height: 25px;"
+                                            src="{% static 'images/dislikeChecked.png' %}" alt="">
+                                    </button>
+                                    {% endif %}
+                            </form>
+                        </th>
+                        <!-- comment -->
+                        <th>
+                            <form action="../../createComment" method="get">
+                                <div class="rounded"
+                                    style="padding: 5px; border: #38C68B 2px solid; width: fit-content; background-color: rgba(0, 0, 0, 0.637); margin-left: 20px; display: flex; align-items: center;">
+                                    <input
+                                        style="background-color: rgba(0, 0, 0, 0); outline: none; border: 0; color: #38C68B;"
+                                        id="comment" name="comment" type="text" required>
+                                    <input name="postId" value="{{ posts.id }}" type="hidden">
+                                    <button type="submit" style="background-color: rgba(0, 0, 0, 0); border: 0;">
+                                        <img height="25px" src="{% static 'images/send-removebg-preview.png' %}" alt="">
+                                    </button>
+                                </div>
+                            </form>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            {% endif %}
+
+            <!-- show or off comments -->
+            {% if comments %}
+            <div data-aos="fade-right" id="showOrHide" style="margin-top: 20px;">
+                <div onclick="commentOn()">
+                    showComment();
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- comments -->
+            <div id="comments">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- script -->
+<!-- script for comment box width -->
+<script>
+    var screenWidth = window.innerWidth
+    var comment = document.getElementById("comment")
+
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 600 && window.innerWidth > 500) {
+            var screenWidth = window.innerWidth
+            comment.style.width = screenWidth - 200 + "px";
+        }
+        else if (window.innerWidth <= 500) {
+            var screenWidth = window.innerWidth
+            comment.style.width = screenWidth - 180 + "px";
+        }
+        else {
+            var screenWidth = window.innerWidth
+            comment.style.width = screenWidth - 260 + "px"
+        }
+    });
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth <= 600 && window.innerWidth > 500) {
+            var screenWidth = window.innerWidth
+            comment.style.width = screenWidth - 200 + "px";
+        }
+        else if (window.innerWidth <= 500) {
+            var screenWidth = window.innerWidth
+            comment.style.width = screenWidth - 180 + "px";
+        }
+        else {
+            var screenWidth = window.innerWidth
+            comment.style.width = screenWidth - 260 + "px"
+        }
+    });
+
+</script>
+
+
+<!-- calculate screen size to justify background -->
+<script>
+    var screenWidth = window.innerWidth;
+    var screenHeight = window.innerHeight;
+    var backgroundImange = document.getElementById("backgroundImange");
+
+    var goldenNum = Math.floor(screenWidth) / (screenHeight);
+    var silverNum = Math.floor(7) / (4);
+
+    if (goldenNum > silverNum) {
+        backgroundImange.style.width = 100 + "%";
+        backgroundImange.style.height = "auto";
+    } else {
+        backgroundImange.style.width = "auto";
+        backgroundImange.style.height = 100 + "%";
+    }
+
+    window.addEventListener('load', function () {
+        var screenWidth = window.innerWidth;
+        var screenHeight = window.innerHeight;
+        var backgroundImange = document.getElementById("backgroundImange");
+
+        var goldenNum = Math.floor(screenWidth) / (screenHeight);
+        var silverNum = Math.floor(7) / (4);
+
+        if (goldenNum > silverNum) {
+            backgroundImange.style.width = 100 + "%";
+            backgroundImange.style.height = "auto";
+        } else {
+            backgroundImange.style.width = "auto";
+            backgroundImange.style.height = 100 + "%";
+        }
+    });
+    window.addEventListener('resize', function () {
+        var screenWidth = window.innerWidth;
+        var screenHeight = window.innerHeight;
+        var backgroundImange = document.getElementById("backgroundImange");
+
+        var goldenNum = Math.floor(screenWidth) / (screenHeight);
+        var silverNum = Math.floor(7) / (4);
+
+        if (goldenNum > silverNum) {
+            backgroundImange.style.width = 100 + "%";
+            backgroundImange.style.height = "auto";
+        } else {
+            backgroundImange.style.width = "auto";
+            backgroundImange.style.height = 100 + "%";
+        }
+    });
+
+</script>
+
+<!-- height for main img container and main img-->
+<script>
+    const mainImgContainer = document.querySelectorAll('.mainImgContainer');
+    const mainImg = document.querySelectorAll('.mainImg');
+    var silverNumber = 7 / 4;
+
+    // pure
+    mainImgContainer.forEach((mainImgContainer) => {
+        mainImgContainer.style.height = mainImgContainer.clientWidth / 7 * 4 + "px";
+    });
+
+    mainImg.forEach((mainImg) => {
+        var goldenNumber = (mainImg.clientWidth + (mainImg.clientWidth / 100)) / mainImg.clientHeight;
+
+
+        if (goldenNumber >= silverNumber) {
+            mainImg.style.width = 100 + "%";
+            mainImg.style.height = "auto";
+        }
+        else {
+            mainImg.style.width = "auto";
+            mainImg.style.height = 100 + "%";
+        }
+    });
+
+    // on load
+    window.addEventListener('load', function () {
+        mainImgContainer.forEach((mainImgContainer) => {
+            mainImgContainer.style.height = mainImgContainer.clientWidth / 7 * 4 + "px";
+        });
+
+        mainImg.forEach((mainImg) => {
+            var goldenNumber = (mainImg.clientWidth + (mainImg.clientWidth / 100)) / mainImg.clientHeight;
+
+
+            if (goldenNumber >= silverNumber) {
+                mainImg.style.width = 100 + "%";
+                mainImg.style.height = "auto";
+            }
+            else {
+                mainImg.style.width = "auto";
+                mainImg.style.height = 100 + "%";
+            }
+        });
+    })
+
+    // on resize
+    window.addEventListener('resize', function () {
+        mainImgContainer.forEach((mainImgContainer) => {
+            mainImgContainer.style.height = mainImgContainer.clientWidth / 7 * 4 + "px";
+        });
+
+        mainImg.forEach((mainImg) => {
+            var goldenNumber = (mainImg.clientWidth + (mainImg.clientWidth / 100)) / mainImg.clientHeight;
+
+
+            if (goldenNumber >= silverNumber) {
+                mainImg.style.width = 100 + "%";
+                mainImg.style.height = "auto";
+            }
+            else {
+                mainImg.style.width = "auto";
+                mainImg.style.height = 100 + "%";
+            }
+        });
+    })
+</script>
+
+
+
+
+<!-- show or hide comments -->
+<script>
+    var comments = document.getElementById("comments");
+    var showOrHide = document.getElementById("showOrHide");
+
+    function commentOn() {
+        comments.innerHTML = `<!-- comment num -->
+                                {% for comment in comments %}
+                                    <div data-aos="fade-right" style="margin-top: 10px;">
+                                        <div class="rounded" style="background-color: rgba(0, 0, 0, 0.637); padding: 5px; border: #38C68B 3px solid;">
+                                            <table>
+                                                <tr>
+                                                    <!-- avt -->
+                                                    <td style="display: flex; align-items: flex-start;">
+                                                        <div class="rounded-circle"
+                                                            style="border: #38C68B 2px solid; width: fit-content; background-color: rgba(0, 0, 0, 0.637);">
+                                                            {% for userInfo in allUserInfo %}
+                                                            {% if userInfo.user == comment.user %}
+                                                            <img class="rounded-circle" style="width: 30px; height: 30px;"
+                                                                src="{{ userInfo.avatar.img.url }}"
+                                                                alt="">
+                                                                {% endif %}
+                                                                {% endfor %}
+                                                        </div>
+                                                    </td>
+                                                    <!-- comment -->
+                                                    <td>
+                                                        <div style="padding: 5px; width: fit-content; margin-left: 5px;">
+                                                            <strong>{{ comment.user.username }}:</strong>
+                                                            {{ comment.comment }}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                {% endfor %}`;
+
+        showOrHide.innerHTML = `<div data-aos="fade-left" onclick="commentOff()">
+                                    hideComment();
+                                    </div>`;
+    }
+
+    function commentOff() {
+        comments.innerHTML = ``;
+        showOrHide.innerHTML = `<div data-aos="fade-right" onclick="commentOn()">
+                                    showComment();
+                                    </div>`;
+    }
+</script>
+
+
+<!-- change img when clicked -->
+<script>
+    var silverNumber = 7 / 4;
+
+    function watchThis(src) {
+        var mainImg = document.getElementById("mainImg");
+        mainImg.src = src;
+        var goldenNumber = (mainImg.clientWidth + (mainImg.clientWidth / 100)) / mainImg.clientHeight;
+
+        if (goldenNumber > silverNumber) {
+            mainImg.style.width = 100 + "%";
+            mainImg.style.height = "auto";
+        } else {
+            mainImg.style.width = "auto";
+            mainImg.style.height = 100 + "%";
+        }
+    }
+</script>
+
+{% if embed_link %}
+<!-- Youtube mode -->
+<script>
+    var youTubePlayer = document.getElementById("youTubePlayer");
+    var YoutubeAction = document.getElementById("YoutubeAction");
+
+
+    function callYoutube() {
+        var callYoutube = document.getElementById("callYoutube");
+
+        if (callYoutube.checked) {
+            youTubePlayer.innerHTML = `<iframe width="100%" height="100%"
+                                src="{{ embed_link }}" title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>`;
+        } else {
+            youTubePlayer.innerHTML = ``;
+        }
+    }
+</script>
+{% endif %}
+
+<!-- show bigger img -->
+<script>
+    function openDetail() {
+        // open pop-up
+        var biggerImg = document.getElementById("biggerImg");
+        biggerImg.innerHTML = `<div
+            style="width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.548); position: fixed; z-index: 3; display: flex; align-items: center; justify-content: center;">
+            <!-- close zone -->
+            <div style="width: 100%; height: 100%; position: absolute;" onclick="closeDetail()">
+            </div>
+
+            <!-- main -->
+            <div class="mainImgContainer"
+                style="width: 80%; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                <img id="detailImg" class="mainImg" style="border: #38C68B 3px solid; z-index: 1;"
+                    src="https://tse2.explicit.bing.net/th?id=OIP.p8lARraKTD2Xp9xqHteIYwHaHa&pid=Api&P=0" alt="">
+            </div>
+        </div>`;
+
+        const mainImgContainer = document.querySelectorAll('.mainImgContainer');
+        mainImgContainer.forEach((mainImgContainer) => {
+            mainImgContainer.style.height = mainImgContainer.clientWidth / 7 * 4 + "px";
+        });
+
+        // set src for pop up img
+        var mainImgSrc = document.getElementById("mainImg");
+        var detailImg = document.getElementById("detailImg");
+        detailImg.src = mainImgSrc.src;
+
+        // setting height for img
+        const mainImg = document.querySelectorAll('.mainImg');
+        mainImg.forEach((mainImg) => {
+            var goldenNumber = (mainImg.clientWidth + (mainImg.clientWidth / 100)) / mainImg.clientHeight;
+
+            if (goldenNumber >= silverNumber) {
+                mainImg.style.width = 100 + "%";
+                mainImg.style.height = "auto";
+            }
+            else {
+                mainImg.style.width = "auto";
+                mainImg.style.height = 100 + "%";
+            }
+        });
+    }
+
+    function closeDetail() {
+        var biggerImg = document.getElementById("biggerImg");
+
+        biggerImg.innerHTML = ``;
+    }
+</script>
+
+
+
+
+{% endblock %}

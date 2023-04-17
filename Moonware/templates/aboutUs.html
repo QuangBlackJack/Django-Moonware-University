@@ -1,0 +1,380 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<pages-css>
+    <style>
+        .fadingEffectForImage {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-image: linear-gradient(to right, rgb(51, 51, 51), rgba(44, 44, 44, 0));
+        }
+
+        @media screen and (max-width: 767px) {
+            .fadingEffectForImage {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-image: linear-gradient(to bottom, rgb(51, 51, 51), rgba(44, 44, 44, 0));
+            }
+        }
+
+        .rightImg {
+            height: 100%;
+            width: auto;
+        }
+
+        @media screen and (max-width: 767px) {
+            .rightImg {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+        .titleFontSize {
+            color: #38C68B;
+            font-size: 70px;
+            font-weight: 900;
+        }
+
+        @media screen and (max-width: 600px) {
+            .titleFontSize {
+                color: #38C68B;
+                font-size: 50px;
+                font-weight: 900;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .titleFontSize {
+                color: #38C68B;
+                font-size: 30px;
+                font-weight: 900;
+            }
+        }
+
+        .imgTitle {
+            height: 70px;
+            margin-bottom: 50px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .imgTitle {
+                height: 60px;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .imgTitle {
+                height: 40px;
+                margin-bottom: 15px;
+            }
+        }
+
+        .info {
+            background-color: rgb(51, 51, 51);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 5px;
+        }
+
+        @media screen and (max-width: 784px) {
+            .info {
+                background-color: rgb(51, 51, 51);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: 5px;
+                padding-bottom: 20px;
+            }
+        }
+    </style>
+</pages-css>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row" style="margin: 0;">
+    <div id="info" class="col-md-8 info">
+        <div style="width: 100%">
+            <!-- about us title -->
+            <div id="title" style="margin-top: 100px;">
+                <div data-aos="fade-right">
+                    <div class="d-inline titleFontSize">
+                        MOONWARE
+                    </div>
+                    <img class="d-inline imgTitle" src="{% static 'images/moonware-logo-removebg-preview2.png'%}" alt="">
+                </div>
+            </div>
+
+
+            <!-- descript container -->
+            <div>
+                <div id="descript" style="color: #38C68B; ">
+                    <!-- about moonware -->
+                    <p data-aos="fade-left">Moon Ware is a technology company that provides a
+                        range of products and
+                        services in the
+                        field of hardware, software, and
+                        gaming. Their products include hardware components, software applications, games, and
+                        operating systems that are
+                        designed to meet the needs of a diverse range of customers.
+
+                        In addition to their products, Moon Ware has also established an education system to
+                        teach students about programming
+                        and 3D modeling. This education system is designed to provide students with the skills
+                        and knowledge they need to pursue
+                        careers in the technology industry.
+
+                        Moon Ware's hardware products are designed to be powerful and reliable, with a focus on
+                        delivering high-quality
+                        performance. Their software applications are user-friendly and designed to be easy to
+                        use, with a range of features that
+                        make them suitable for both personal and professional use.
+
+                        The company's gaming products are designed to provide an immersive gaming experience,
+                        with a focus on graphics, sound,
+                        and gameplay. Their operating systems are designed to be efficient and reliable, with a
+                        range of features that make them
+                        suitable for a range of applications.
+
+                        Overall, Moon Ware is a company that is committed to providing innovative and
+                        high-quality technology products and
+                        services, while also supporting the development of future technology professionals
+                        through their education system.</p>
+
+
+                </div>
+            </div>
+
+
+
+            <!-- button to change section -->
+            <div>
+                <!-- go to description of CMS -->
+                <div id="button" style="right: 0; display: flex; justify-content: right;">
+                    <!-- about moonware cms -->
+                    <div data-aos="fade-right">
+                        <!-- label -->
+                        <div class="d-inline" style="font-weight: 800; font-size: 20px; color: #38C68B;">
+                            Learn more about the moonware CMS:
+                        </div>
+
+                        <!-- button -->
+                        <div onclick="showMoonwareCms()" class="d-inline hover-underline-animation"
+                            style="font-weight: 500; font-size: 18px; color: #69e2b0;">
+                            aboutMoonwareCms();
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="rightImage" class="col-md-4"
+        style="overflow: hidden; height: 100%; padding: 0; display: flex; justify-content: center; align-items: center;">
+        <div class="fadingEffectForImage">
+        </div>
+        <img class="rightImg"
+            src="{% static 'images/D_E_P_R_E_S_S_E_D_cyber_punk_charcter_with_gun_b7ee9b11-0c3b-4bbe-bd42-c545b162ed58.png' %}"
+            alt="">
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- script to change between Moonware info and Moonware CMS -->
+<script>
+    // declare variables
+    var title = document.getElementById("title");
+    var descript = document.getElementById("descript");
+    var button = document.getElementById("button");
+
+    // function change to Moonwar CMS
+    function showMoonwareCms() {
+        // change for title
+        title.innerHTML = `<div data-aos="fade-right">
+                            <div class="d-inline titleFontSize"">
+                                MOONWARE CMS
+                            </div>
+                            <img class="d-inline imgTitle" src="{% static 'images/moonware-logo-removebg-preview2.png'%}"
+                                alt="">
+                        </div>`;
+
+        // change for description
+        descript.innerHTML = `<!-- about moonware cms -->
+                            <p data-aos="fade-left">Moon Ware has implemented a Content Management System (CMS) for all teachers at their
+                                college. This system provides a
+                                platform for teachers to share their ideas and collaborate with each other in an
+                                organized and efficient way.
+
+                                With the CMS, teachers can easily create and publish content such as lesson plans,
+                                course materials, and academic
+                                resources. They can also share ideas and feedback with each other, as well as track
+                                their progress and achievements.
+
+                                The CMS allows teachers to easily access and manage their content from a centralized
+                                location, which makes it easier for
+                                them to collaborate and work together on shared projects. The system also allows for
+                                easy communication between
+                                teachers, which helps to improve the quality of the teaching and learning experience for
+                                students.
+
+                                The CMS is designed to be user-friendly and easy to navigate, even for those who may not
+                                have extensive technical
+                                skills. Teachers can quickly create and publish content, and can easily access and
+                                manage their work from any device
+                                with an internet connection.
+
+                                Overall, the CMS system implemented by Moon Ware is an effective tool for improving
+                                collaboration and communication
+                                among teachers at their college, which ultimately benefits the students by providing a
+                                more organized and effective
+                                learning environment.</p>`;
+
+        // change for button
+        button.innerHTML = `<!-- about moonware -->
+                            <div data-aos="fade-right">
+                                <!-- label -->
+                                <div class="d-inline" style="font-weight: 800; font-size: 20px; color: #38C68B;">
+                                    Learn more about the moonware:
+                                </div>
+
+                                <!-- button -->
+                                <div onclick="showMoonware()" class="d-inline hover-underline-animation" style="font-weight: 500; font-size: 18px; color: #69e2b0;">
+                                    aboutMoonware();
+                                </div>
+                            </div>`;
+    }
+
+    // function change to moonware
+    function showMoonware() {
+        // change for title
+        title.innerHTML = `<div data-aos="fade-right">
+                            <div class="d-inline titleFontSize" style="color: #38C68B; font-size: 70px; font-weight: 900;">
+                                MOONWARE
+                            </div>
+                            <img style="margin-bottom: 50px;" class="d-inline" src="{% static 'images/moonware-logo-removebg-preview2.png'%}"
+                                alt="">
+                        </div>`;
+
+        // change for description
+        descript.innerHTML = `<!-- about moonware -->
+                            <p data-aos="fade-left">Moon Ware is a technology company that provides a
+                                range of products and
+                                services in the
+                                field of hardware, software, and
+                                gaming. Their products include hardware components, software applications, games, and
+                                operating systems that are
+                                designed to meet the needs of a diverse range of customers.
+
+                                In addition to their products, Moon Ware has also established an education system to
+                                teach students about programming
+                                and 3D modeling. This education system is designed to provide students with the skills
+                                and knowledge they need to pursue
+                                careers in the technology industry.
+
+                                Moon Ware's hardware products are designed to be powerful and reliable, with a focus on
+                                delivering high-quality
+                                performance. Their software applications are user-friendly and designed to be easy to
+                                use, with a range of features that
+                                make them suitable for both personal and professional use.
+
+                                The company's gaming products are designed to provide an immersive gaming experience,
+                                with a focus on graphics, sound,
+                                and gameplay. Their operating systems are designed to be efficient and reliable, with a
+                                range of features that make them
+                                suitable for a range of applications.
+
+                                Overall, Moon Ware is a company that is committed to providing innovative and
+                                high-quality technology products and
+                                services, while also supporting the development of future technology professionals
+                                through their education system.</p>
+                
+`;
+
+        // change for button
+        button.innerHTML = ` <!-- about moonware cms -->
+                            <div data-aos="fade-right">
+                                <!-- label -->
+                                <div class="d-inline" style="font-weight: 800; font-size: 20px; color: #38C68B;">
+                                    Learn more about the moonware CMS:
+                                </div>
+
+                                <!-- button -->
+                                <div onclick="showMoonwareCms()" class="d-inline hover-underline-animation" style="font-weight: 500; font-size: 18px; color: #69e2b0;">
+                                    aboutMoonwareCms();
+                                </div>
+                            </div>`;
+    }
+
+
+
+</script>
+
+<!-- calculate height -->
+<script>
+    var info = document.getElementById("info");
+    var rightImage = document.getElementById("rightImage");
+    var infoHeight = info.clientHeight;
+    var screenWidth = window.innerWidth;
+
+
+
+    if (screenWidth <= 767) {
+        rightImage.style.height = 200 + "px"
+    } else {
+        rightImage.style.height = infoHeight + "px";
+    }
+
+    window.addEventListener('load', function () {
+        var info = document.getElementById("info");
+        var rightImage = document.getElementById("rightImage");
+        var infoHeight = info.clientHeight;
+        var screenWidth = window.innerWidth;
+
+        if (screenWidth <= 767) {
+            rightImage.style.height = 200 + "px"
+        } else {
+            rightImage.style.height = infoHeight + "px";
+        }
+    });
+
+    window.addEventListener('resize', function () {
+        var info = document.getElementById("info");
+        var rightImage = document.getElementById("rightImage");
+        var infoHeight = info.clientHeight;
+        var screenWidth = window.innerWidth;
+
+        if (screenWidth <= 767) {
+            rightImage.style.height = 200 + "px"
+        } else {
+            rightImage.style.height = infoHeight + "px";
+        }
+    });
+
+</script>
+
+{% endblock %}

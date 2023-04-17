@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moonware</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- animation  -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <link rel="icon" href="{% static 'images/moonware-logo-removebg-preview2.png' %}">
+
+
+    <style>
+        /* scroll bar custom */
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #1e8359;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #38C68B;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06e78a;
+        }
+
+        /* navbar toggler */
+        .custom-toggler .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(56, 198, 139, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+        }
+
+        /* nav bar menu */
+        .background-nav-item {
+            background-color: #2a292900;
+        }
+
+        @media screen and (max-width: 991px) {
+            .background-nav-item {
+                width: 100%;
+                background-color: #2a292994;
+                margin-top: 20px;
+                padding: 10px;
+                backdrop-filter: blur(5px);
+            }
+        }
+
+        /* underline animetion */
+        .w3rcontainer {
+            border: 1px solid #cccfdb;
+            border-radius: 2px;
+        }
+
+        .hover-underline-animation {
+            display: inline-block;
+            position: relative;
+            color:
+                #38C68B;
+            ;
+        }
+
+        .hover-underline-animation:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color:
+                #38C68B;
+            ;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        .hover-underline-animation:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+
+<body>
+    {% load static %}
+    <div>
+        <!-- nav bar -->
+        <nav id="myDiv"
+            style="height: 80px; padding: 0; position: fixed; z-index: 5; width: 100vw; background-color: #2a292994; backdrop-filter: blur(5px);"
+            class="navbar navbar-expand-lg navbar-light ">
+            <a class="navbar-brand" href="/"><img style="height: 50px;"
+                    src="{% static 'images/moonware-logo-removebg-preview.png' %}" alt=""></a>
+            <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse background-nav-item" id="navbarNav">
+                <ul style="font-size: 20px;" class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item active">
+                        <a style="color: #38C68B;" class="nav-link" href="/">Home <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #AEEFC5;" class="nav-link" href="/aboutUs/">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #AEEFC5;" class="nav-link" href="/account/">Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #AEEFC5;" class="nav-link" href="/contact/">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #AEEFC5;" class="nav-link" href="/storage/">Storage</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if userInfos %}
+                            <img style="border: #38C68B 2px solid;" class="rounded-circle" width="30px"
+                                src="{{ userInfos.avatar.img.url }}" alt="">
+                            {% endif %}
+                        </a>
+                        <div style="background-color: #2a292994; border: #38C68B 2px solid;" class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a style="color: #38C68B;" class="dropdown-item" href="/account/">{{user.username}}</a>
+                            {% if userInfos.type == "admin" %}
+                                <a style="color: #38C68B;" class="dropdown-item" href="/admin/">Manage</a>
+                            {% endif %}
+                            {% if userInfos.type == "manager" %}
+                                <a style="color: #38C68B;" class="dropdown-item" href="/admin/">Manage</a>
+                                <a style="color: #38C68B;" class="dropdown-item" href="/exportData/">Export Data</a>
+                            {% endif %}
+                            <a style="color: #38C68B;" class="dropdown-item" href="/notificate">Notifications <label class="rounded-circle" style="margin: 0; background-color: #38C68B; width: 25px; color: #000000;" for=""> <center>{{ numberOfNotification }}</center></label></a>                         
+                            <a style="color: #38C68B; border-top: 2px #38C68B solid;" class="dropdown-item" href="/logout">Log Out</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item active">
+                        <a style="color: #38C68B;" class="nav-link" href="/">Home <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #AEEFC5;" class="nav-link" href="/aboutUs/">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="color: #AEEFC5;" class="nav-link" href="/contact/">Contact</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        <!-- body -->
+        {% block content %}
+        {% endblock %}
+
+        <!-- footer -->
+        <div class="row" style="margin: 0;">
+            <div class="col-md-12"
+                style="background-color: rgb(90, 90, 90); height: fit-content; border-top: 2px solid #38C68B; padding: 30px;">
+                <div class="row" data-aos="fade-right">
+                    <!-- logo and other information (location) -->
+                    <div class="col-md-3" style="padding: 10px;">
+                        <div class="row">
+                            <div id="footerLogo" class="col-auto">
+                                <img class="" width="50px"
+                                    src="{% static 'images/moonware-logo-removebg-preview2.png' %}" alt="">
+                            </div>
+                            <div class="col">
+                                <h3 style="color: #38C68B;"> <strong>MOONWARE</strong> </h3>
+                                <div>
+                                    <img class="d-inline" height="30px"
+                                        src="{% static 'images/location-removebg-preview (1).png' %}" alt="">
+                                    <p class="d-inline" style="font-size: 18px; color: #38C68B;">83, Street 4, Binh
+                                        Tan, Binh Hung Hoa, Ho Chi
+                                        Minh City, Vietnam</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Follow Us -->
+                    <div class="col-md-3" style="color: #38C68B; padding: 10px;">
+                        <div id="followUs" style="width: fit-content;">
+                            <p style="margin: 0; width: fit-content;"><strong>FOLLOW US ON:</strong></p>
+                            <div style="width: fit-content;">
+                                <!-- facebook -->
+                                <img class="d-inline" width="30px"
+                                    src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}" alt="">
+
+                                <!-- Instagram -->
+                                <img class="d-inline" width="30px"
+                                    src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}" alt="">
+
+                                <!-- Twitter -->
+                                <img class="d-inline" width="30px"
+                                    src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}" alt="">
+
+                                <!-- Youtube -->
+                                <img class="d-inline" width="30px"
+                                    src="{% static 'images/youtubelogo__2_-removebg-preview.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support Us -->
+                    <div class="col-md-3" style="color: #38C68B; padding: 10px;">
+                        <!-- Support Us -->
+                        <div id="supportUs" style="width: fit-content;">
+                            <p style="margin: 0; width: fit-content;"><strong>SUPPORT US:</strong></p>
+                            <p style="width: fit-content;">sacombank <br> 060296721983 <br> Nguyen Nhat Quang</p>
+                        </div>
+                    </div>
+
+                    <!-- Contact Us -->
+                    <div class="col-md-3" style="color: #38C68B; padding: 10px;">
+                        <div id="contactUs" style="width: fit-content;">
+                            <p style="margin: 0; width: fit-content;"><Strong>CONTACT US ON:</Strong></p>
+                            <a style="text-decoration: none; color: #38C68B; width: fit-content;" href="">Facebook</a>
+                            <p>Phone: 0866114321</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- script for nav bar -->
+    <script>
+        // Get the div element to be hidden/shown
+        const myDiv = document.getElementById("myDiv");
+
+        // Initialize previous scroll position to the top of the page
+        let prevScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+
+        window.addEventListener("scroll", function () {
+            // Get the current scroll position
+            const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+
+            // If current scroll position is greater than previous scroll position, hide the div
+            if (currentScrollPos > prevScrollPos) {
+                myDiv.style.opacity = "0";
+                myDiv.style.transition = "opacity 0.5s ease-out";
+                setTimeout(function () {
+                    myDiv.style.zIndex = "-1";
+                }, 200);
+                
+            }
+            // If current scroll position is less than previous scroll position, show the div
+            else {
+                myDiv.style.zIndex = "1";
+                myDiv.style.opacity = "1";
+                myDiv.style.transition = "opacity 0.5s ease-in";
+                myDiv.innerHTML = `<a class="navbar-brand" href="/"><img style="height: 50px;"
+                                                src="{% static 'images/moonware-logo-removebg-preview.png' %}" alt=""></a>
+                                        <button class="navbar-toggler ml-auto custom-toggler" type="button" data-toggle="collapse"
+                                            data-target="#navbarNav">
+                                            <span class="navbar-toggler-icon"></span>
+                                        </button>
+
+                                        <div class="collapse navbar-collapse background-nav-item" id="navbarNav">
+                                            <ul style="font-size: 20px;" class="navbar-nav">
+                                                {% if user.is_authenticated %}
+                                                <li class="nav-item active">
+                                                    <a style="color: #38C68B;" class="nav-link" href="/">Home <span
+                                                            class="sr-only">(current)</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a style="color: #AEEFC5;" class="nav-link" href="/aboutUs/">About Us</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a style="color: #AEEFC5;" class="nav-link" href="/account/">Account</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a style="color: #AEEFC5;" class="nav-link" href="/contact/">Contact</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a style="color: #AEEFC5;" class="nav-link" href="/storage/">Storage</a>
+                                                </li>
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {% if userInfos %}
+                                                        <img style="border: #38C68B 2px solid;" class="rounded-circle" width="30px"
+                                                            src="{{ userInfos.avatar.img.url }}" alt="">
+                                                        {% endif %}
+                                                    </a>
+                                                    <div style="background-color: #2a292994; border: #38C68B 2px solid;" class="dropdown-menu"
+                                                        aria-labelledby="navbarDropdown">
+                                                        <a style="color: #38C68B;" class="dropdown-item" href="/account/">{{user.username}}</a>
+                                                        {% if userInfos.type == "admin" %}
+                                                            <a style="color: #38C68B;" class="dropdown-item" href="/admin/">Manage</a>
+                                                        {% endif %}
+                                                        {% if userInfos.type == "manager" %}
+                                                            <a style="color: #38C68B;" class="dropdown-item" href="/admin/">Manage</a>
+                                                            <a style="color: #38C68B;" class="dropdown-item" href="/exportData/">Export Data</a>
+                                                        {% endif %}
+                                                        <a style="color: #38C68B;" class="dropdown-item" href="/notificate">Notifications <label class="rounded-circle" style="margin: 0; background-color: #38C68B; width: 25px; color: #000000;" for=""> <center>{{ numberOfNotification }}</center></label></a>                         
+                                                        <a style="color: #38C68B; border-top: 2px #38C68B solid;" class="dropdown-item" href="/logout">Log Out</a>
+                                                    </div>
+                                                </li>
+                                                {% else %}
+                                                <li class="nav-item active">
+                                                    <a style="color: #38C68B;" class="nav-link" href="/">Home <span
+                                                            class="sr-only">(current)</span></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a style="color: #AEEFC5;" class="nav-link" href="/aboutUs/">About Us</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a style="color: #AEEFC5;" class="nav-link" href="/contact/">Contact</a>
+                                                </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>`
+            }
+
+            // Update previous scroll position with the current one
+            prevScrollPos = currentScrollPos;
+        });
+    </script>
+
+    <!-- animation -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+    </script>
+
+    <!-- script bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <!-- margin for element in footer -->
+    <script>
+        // get all neccessary elements
+        var footerLogo = document.getElementById("footerLogo");
+        var followUs = document.getElementById("followUs");
+        var supportUs = document.getElementById("supportUs");
+        var contactUs = document.getElementById("contactUs");
+
+        // get logo width
+        var footerLogoWidth = footerLogo.clientWidth;
+
+        var screenWidth = window.innerWidth;
+
+        window.addEventListener('load', function () {
+            if (screenWidth < 767) {
+                followUs.style.marginLeft = footerLogoWidth + "px";
+                supportUs.style.marginLeft = footerLogoWidth + "px";
+                contactUs.style.marginLeft = footerLogoWidth + "px";
+            }
+        });
+        window.addEventListener('resize', function () {
+            if (screenWidth < 767) {
+                followUs.style.marginLeft = footerLogoWidth + "px";
+                supportUs.style.marginLeft = footerLogoWidth + "px";
+                contactUs.style.marginLeft = footerLogoWidth + "px";
+            }
+        });
+    </script>
+
+    <!-- margin for element in footer -->
+    <script>
+        // get all neccessary elements
+        var footerLogo = document.getElementById("footerLogo");
+        var followUs = document.getElementById("followUs");
+        var supportUs = document.getElementById("supportUs");
+        var contactUs = document.getElementById("contactUs");
+
+        // get logo width
+        var footerLogoWidth = footerLogo.clientWidth;
+
+        var screenWidth = window.innerWidth;
+
+        window.addEventListener('load', function () {
+            if (screenWidth < 767) {
+                followUs.style.marginLeft = footerLogoWidth + "px";
+                supportUs.style.marginLeft = footerLogoWidth + "px";
+                contactUs.style.marginLeft = footerLogoWidth + "px";
+            }
+        });
+        window.addEventListener('resize', function () {
+            if (screenWidth < 767) {
+                followUs.style.marginLeft = footerLogoWidth + "px";
+                supportUs.style.marginLeft = footerLogoWidth + "px";
+                contactUs.style.marginLeft = footerLogoWidth + "px";
+            }
+        });
+    </script>
+</body>
+
+</html>

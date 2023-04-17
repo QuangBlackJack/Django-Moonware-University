@@ -1,0 +1,728 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- css -->
+<pages-css>
+    <style>
+        /* underline animetion */
+
+        .hover-underline-animation {
+            /* display: inline-block; */
+            position: relative;
+            color:
+                #38C68B;
+            ;
+        }
+
+        .hover-underline-animation:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color:
+                #38C68B;
+            ;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        .hover-underline-animation:hover:after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* round box css */
+        .round-box {
+            border-radius: 999px;
+            padding: 5px;
+        }
+
+        /* grid for gif choosing */
+        .grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        /* avt cover */
+        .avtCover {
+            overflow: hidden;
+            height: 100vh;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media screen and (max-width: 767px) {
+            .avtCover {
+                overflow: hidden;
+                height: 200px;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        /* black fading layer */
+        .blackFading {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-image: linear-gradient(to right, rgba(44, 44, 44, 0), rgb(44, 44, 44));
+        }
+
+        @media screen and (max-width: 767px) {
+            .blackFading {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-image: linear-gradient(to bottom, rgba(44, 44, 44, 0), rgb(44, 44, 44));
+            }
+        }
+
+        /* avatar */
+        .avatar {
+            height: 100%;
+            width: auto;
+        }
+
+        @media screen and (max-width: 767px) {
+            .avatar {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+        .changableLogo {
+            width: 100px;
+            height: 70px;
+            border: #38C68B 5px solid;
+            padding: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 100px;
+        }
+
+        @media screen and (max-width: 767px) {
+            .changableLogo {
+                width: 100px;
+                height: 70px;
+                border: #38C68B 5px solid;
+                padding: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 10px;
+            }
+        }
+
+        @media screen and (max-width: 530px) {
+            .changableLogo {
+                width: 80px;
+                height: 50px;
+                border: #38C68B 5px solid;
+                padding: 5px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 10px;
+            }
+        }
+
+        .mainZone {
+            font-size: 40px;
+            font-weight: 700;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        @media screen and (max-width: 767px) {
+            .mainZone {
+                font-size: 40px;
+                font-weight: 700;
+                margin-top: 10px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .centerOrNot {
+            display: flex;
+            justify-content: left;
+        }
+
+        @media screen and (max-width: 767px) {
+            .centerOrNot {
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .marginOrNot {
+            margin-left: 100px;
+        }
+
+        @media screen and (max-width: 767px) {
+            .marginOrNot {
+                margin-left: 0px;
+            }
+        }
+
+        .mainCover {
+            padding: 0;
+            background-color: rgb(44, 44, 44);
+            height: 100vh;
+            width: 100%;
+            color: #38C68B;
+        }
+
+        @media screen and (max-width: 767px) {
+            .mainCover {
+                padding: 0;
+                background-color: rgb(44, 44, 44);
+                height: fit-content;
+                width: 100%;
+                color: #38C68B;
+                padding-bottom: 50px;
+            }
+        }
+
+        /* fontsize */
+        .menuTitleFont {
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .menuItemFont {
+            font-size: 30px;
+            font-weight: 400;
+        }
+
+        @media screen and (max-width: 450px) {
+            .menuTitleFont {
+                font-size: 30px;
+                font-weight: 700;
+            }
+
+            .menuItemFont {
+                font-size: 20px;
+                font-weight: 400;
+            }
+        }
+
+        /* logo position */
+        .logoPosition {
+            display: flex;
+            justify-content: right;
+            margin-right: 50px;
+        }
+
+        @media screen and (max-width: 400px) {
+            .logoPosition {
+                display: flex;
+                justify-content: center;
+                margin-right: 0px;
+            }
+        }
+
+        /* margin for inputs */
+        .marginInput {
+            margin-left: 50px;
+        }
+
+        @media screen and (max-width: 767px) {
+            .marginInput {
+                margin-left: 0px;
+            }
+        }
+
+        .titleFont {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: -20px;
+        }
+
+        .inputFont {
+            font-size: 20px;
+            font-weight: 500;
+            padding: 2px;
+            background-color: rgb(43, 43, 43);
+            color: #38C68B;
+            border: #38C68B 2px solid;
+        }
+
+        @media screen and (max-width: 500px) {
+            .titleFont {
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .inputFont {
+                font-size: 15px;
+                font-weight: 500;
+                padding: 2px;
+                background-color: rgb(43, 43, 43);
+                color: #38C68B;
+                border: #38C68B 2px solid;
+            }
+        }
+
+        /* button container (change password) */
+        .buttonContainer {
+            display: flex;
+            justify-content: right;
+        }
+
+        @media screen and (max-width: 767px) {
+            .buttonContainer {
+                display: flex;
+                justify-content: left;
+            }
+        }
+
+        /* container for report */
+        .reportContainer {
+            margin-top: -50px;
+            margin-left: 100px;
+        }
+
+        @media screen and (max-width: 767px) {
+            .reportContainer {
+                margin-top: 0px;
+                margin-left: 0px;
+            }
+        }
+
+        /* text area (in send report) */
+        .textArea {
+            background-color: rgb(43, 43, 43);
+            border: #38C68B 2px solid;
+            width: 70%;
+            height: 150px;
+            font-size: 15px;
+            color: #38C68B;
+        }
+
+        @media screen and (max-width: 767px) {
+            .textArea {
+                background-color: rgb(43, 43, 43);
+                border: #38C68B 2px solid;
+                width: 100%;
+                height: 150px;
+                font-size: 15px;
+                color: #38C68B;
+            }
+        }
+    </style>
+</pages-css>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- pop-up -->
+<div id="popUpChoosingAvatar">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- main content -->
+<div style="width: 100%; margin: 0;">
+    <div class="row" style="width: 100%; margin: 0;">
+        <div class="col-md-4 avtCover">
+            <div class="blackFading">
+            </div>
+            {% if userInfos %}
+            <img class="avatar" src="{{ userInfos.avatar.img.url }}" alt="">
+            {% endif %}
+        </div>
+        <div class="col-md-8 mainCover">
+            <div>
+                <div>
+                    <div class="logoPosition">
+                        <div class="rounded changableLogo">
+                            <img id="hoverToChange" style="height: 100%;"
+                                src="{% static 'images/moonware-logo-removebg-preview2.png' %}" alt="">
+                        </div>
+                    </div>
+
+
+                    <div id="mainZone" class="mainZone">
+                        <div data-aos="fade-right" style="width: 100%; ">
+                            <!-- <center> -->
+                            <div class="centerOrNot menuTitleFont">
+                                main menu:
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <div class="hover-underline-animation" onclick="settingClicked()"
+                                    onmouseover="settingHoverOn()" onmouseout="stopHovering()"
+                                    style="width: fit-content;">Setting</div>
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <a href="../storage">
+                                <div class="hover-underline-animation" onmouseover="storageHoverOn()"
+                                    onmouseout="stopHovering()" style="width: fit-content;">Storage</div>
+                                </a>
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <div class="hover-underline-animation" onclick="passwordClicked()"
+                                    onmouseover="passwordHoverOn()" onmouseout="stopHovering()"
+                                    style="width: fit-content;">Change
+                                    Password
+                                </div>
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <div class="hover-underline-animation" onclick="reportClicked()"
+                                    onmouseover="reportHoverOn()" onmouseout="stopHovering()"
+                                    style="width: fit-content;">Report Problem
+                                </div>
+                            </div>
+                            <!-- </center> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- scripts -->
+<!-- hovering script -->
+<script>
+    var hoverToChange = document.getElementById("hoverToChange");
+
+    // setting
+    function settingHoverOn() {
+        hoverToChange.src = "{% static 'images/setting-removebg-preview.png' %}"
+    }
+
+    // storage
+    function storageHoverOn() {
+        hoverToChange.src = "{% static 'images/storage-removebg-preview.png' %}"
+    }
+
+    // change password
+    function passwordHoverOn() {
+        hoverToChange.src = "{% static 'images/password-removebg-preview.png' %}"
+    }
+
+    // report problem
+    function reportHoverOn() {
+        hoverToChange.src = "{% static 'images/report-removebg-preview.png' %}"
+    }
+
+    // stop hovering
+    function stopHovering() {
+        hoverToChange.src = "{% static 'images/moonware-logo-removebg-preview2.png' %}"
+    }
+
+</script>
+
+<!-- script show or disappear pop up choosing avatar -->
+<script>
+    var popUpChoosingAvatar = document.getElementById("popUpChoosingAvatar");
+
+    function popUpChoosingAvatarOn() {
+        popUpChoosingAvatar.innerHTML = `<div
+                                            style="width: 100%; height: 100%; position: fixed; background-color: rgba(0, 0, 0, 0.445); z-index: 1; display: flex; justify-content: center; align-items: center;">
+                                            <div data-aos="fade-right"
+                                                style="width: 80%; height: 75%; border: #38C68B 2px solid; background-color: rgba(0, 0, 0, 0.719); backdrop-filter: blur(5px); overflow-y: scroll;">
+                                                <!-- x button -->
+                                                <div style="display: flex; justify-content: right;">
+                                                    <div onclick="popUpChoosingAvatarOff()"
+                                                        style="width: 30px; height: 30px; background-color: #38C68B; font-size: 30px; font-weight: 700; display: flex; align-items: center; justify-content: center;">
+                                                        X</div>
+                                                </div>
+
+                                                <!-- grid avatar -->
+                                                <div class="grid" style="padding: 10px;">
+
+                                                    {% for avatar in avatars %}
+                                                    <!-- img {number} -->
+                                                    <a href="../updateAvatar/{{ avatar.id }}">
+                                                        <div style="padding: 10px;">
+                                                            <img style="width: 100%; border: #38C68B 2px solid;" src="{{ avatar.img.url }}" alt="">
+                                                        </div>
+                                                    </a>
+                                                    {% endfor %}
+
+                                                </div>
+                                            </div>
+                                        </div>`;
+    }
+
+    function popUpChoosingAvatarOff() {
+        popUpChoosingAvatar.innerHTML = ``;
+    }
+
+</script>
+
+
+
+
+
+
+<!-- change form menu -->
+<script>
+    // clicked setting
+    var mainZone = document.getElementById("mainZone");
+
+    // setting
+    function settingClicked() {
+        mainZone.innerHTML = `<!-- setting clicked -->
+                                <div data-aos="fade-right" class="marginOrNot" style="font-size: 25px; font-weight: 700; width: fit-content;">
+                                    <!-- input zone (change avatar) -->
+                                    <div>                                       
+                                        <!-- label -->
+                                        <div class="centerOrNot">
+                                            <div class="d-inline" for="">Change Avatar:</div>
+                                        </div>
+
+                                        <!-- input -->
+                                        <div class="centerOrNot">
+                                            <div onclick="popUpChoosingAvatarOn()"
+                                                class="d-inline hover-underline-animation"
+                                                style="font-size: 20px; font-weight: 400;">
+                                                ClickHereTochangeAvatar();</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="centerOrNot">
+                                        <div>
+                                            <button onclick="backToMenu()" class="round-box"
+                                                style="font-size: 20px; padding: 2px; padding-left: 15px; padding-right: 15px; background-color: #38C68B; margin-top: 20px;">Back</button>                                            
+                                        </div>
+                                    </div>
+                                </div>`;
+    }
+
+    // Password
+    function passwordClicked() {
+        mainZone.innerHTML = `<!-- change password -->
+                                <div data-aos="fade-right" class="marginOrNot">
+                                    <div style="width: fit-content">
+                                        <!-- old password -->
+                                        <form method="POST" action="http://127.0.0.1:8000/otpToChangePass/">
+                                        {% csrf_token %}
+                                            <div>
+                                                <!-- label -->
+                                                <div class="titleFont">Current
+                                                    Password:</div>
+                                                <!-- input -->
+                                                <input name="password1" type="password" class="round-box marginInput inputFont">
+                                            </div>
+
+                                            <!-- new password -->
+                                            <div style="margin-top: 20px">
+                                                <!-- label -->
+                                                <div class="titleFont">New
+                                                    Password:</div>
+                                                <!-- input -->
+                                                <input name="password2" type="password" class="round-box marginInput inputFont">
+                                            </div>
+
+                                            <!-- re-type new-password -->
+                                            <div style="margin-top: 20px">
+                                                <!-- label -->
+                                                <div class="titleFont">Re-type New
+                                                    Password:</div>
+                                                <!-- input -->
+                                                <input name="password3" type="password" class="round-box marginInput inputFont inputFont">
+                                            </div>
+
+                                            <!-- buttons -->
+                                            <div class="buttonContainer">
+                                                <div style="width: fit-content">
+                                                    <button onclick="backToMenu()" class="round-box"
+                                                        style="font-size: 20px; padding: 2px; padding-left: 15px; padding-right: 15px; background-color: #38C68B; margin-top: 20px;">Back</button>
+                                                    <button type="submit" class="round-box"
+                                                        style="font-size: 20px; padding: 2px; padding-left: 15px; padding-right: 15px; background-color: #38C68B; margin-top: 20px;">Apply</button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>`;
+    }
+
+    // report
+    function reportClicked() {
+        mainZone.innerHTML = `<!-- report problem -->
+                                <div class="reportContainer" data-aos="fade-right">
+                                    <form action="../contact/" method="post">
+                                        {% csrf_token %}
+                                        <!-- text area to input report -->
+                                        <div>
+                                            <!-- label -->
+                                            <div>
+                                                <label style="font-size: 25px; font-weight: 500;" for="">Input Your report
+                                                    below:</label>
+                                            </div>
+
+                                            <!-- text area -->
+                                            <div>
+                                                <textarea name="report" class="textArea" id=""></textarea>
+                                            </div>
+                                        </div>
+
+                                        <!-- or contact admin (via social media & phone) -->
+                                        <div>
+                                            <!-- social media -->
+                                            <div>
+                                                <!-- text -->
+                                                <div class="d-inline" style="font-size: 25px; font-weight: 500;">Contact
+                                                    admin via:</div>
+
+                                                <!-- icons -->
+                                                <div class="d-inline">
+                                                    <!-- facebook -->
+                                                    <div class="d-inline">
+                                                        <img style="height: 30px;" src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}"
+                                                            alt="">
+                                                    </div>
+
+                                                    <!-- instagram -->
+                                                    <div class="d-inline">
+                                                        <img style="height: 30px;" src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}"
+                                                            alt="">
+                                                    </div>
+
+                                                    <!-- twitter -->
+                                                    <div class="d-inline">
+                                                        <img style="height: 30px;" src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- phone -->
+                                            <div>
+                                                <!-- text -->
+                                                <div class="d-inline" style="font-size: 25px; font-weight: 500;">Phone:
+                                                </div>
+
+                                                <!-- phone -->
+                                                <div class="d-inline" style="font-size: 20px; font-weight: 500; text-decoration: underline;">
+                                                    +84 866114321
+                                                </div>
+                                            </div>
+
+                                            <!-- buttons -->
+                                            <div>
+                                                <button onclick="backToMenu()" class="round-box"
+                                                    style="font-size: 20px; padding: 2px; padding-left: 15px; padding-right: 15px; background-color: #38C68B; ">Back</button>
+                                                <button type="submit" class="round-box"
+                                                    style="font-size: 20px; padding: 2px; padding-left: 15px; padding-right: 15px; background-color: #38C68B;">Submit</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>`;
+    }
+
+    // menu
+    function backToMenu() {
+        mainZone.innerHTML = ` <!-- main menu -->
+                                <div data-aos="fade-right" style="width: 100%; ">
+                            <!-- <center> -->
+                            <div class="centerOrNot menuTitleFont">
+                                main menu:
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <div class="hover-underline-animation" onclick="settingClicked()"
+                                    onmouseover="settingHoverOn()" onmouseout="settingHoverOff()"
+                                    style="width: fit-content;">Setting</div>
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <div class="hover-underline-animation" onmouseover="storageHoverOn()"
+                                    onmouseout="storageHoverOff()" style="width: fit-content;">Storage</div>
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <div class="hover-underline-animation" onclick="passwordClicked()"
+                                    onmouseover="passwordHoverOn()" onmouseout="passwordHoverOff()"
+                                    style="width: fit-content;">Change
+                                    Password
+                                </div>
+                            </div>
+                            <div class="centerOrNot marginOrNot menuItemFont">
+                                <div class="hover-underline-animation" onclick="reportClicked()"
+                                    onmouseover="reportHoverOn()" onmouseout="reportHoverOff()"
+                                    style="width: fit-content;">Report Problem
+                                </div>
+                            </div>
+                            <!-- </center> -->
+                        </div>`;
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

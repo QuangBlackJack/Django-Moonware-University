@@ -1,0 +1,104 @@
+<div id="popUpCreateNew">
+    <div class="blackLayerForm">
+        <!-- form -->
+        <div id="form" class="form" style="overflow: hidden;">
+            <!-- x button -->
+            <div onclick="createNewOff()" class="xButton">
+                x
+            </div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="allInpuContainer">
+                    <!-- season -->
+                    <div style="position: relative;">
+
+                        <label for="cars">Season:</label>
+
+                        <select name="seasonTitle" class="rounded marginCreate baseInput" style="width: fit-content;"
+                            id="cars" required>
+                            {% if seasons %}
+                            {% for season in seasons %} <option value="{{season.title}}">{{season.title}}
+                            </option>
+                            {% endfor %}
+                            {% else %}
+                            <option value="none">
+                                haha</option>
+                            {% endif %}
+
+                        </select>
+                    </div>
+
+                    <!-- title -->
+                    <div style="position: relative;">
+                        <label style="margin-top: 5px;" for="">Title</label>
+                        <input name="title" class="rounded marginCreate inputCreate baseInput" type="text" required>
+                    </div>
+
+                    <!-- youtube link -->
+                    <div style="position: relative;">
+                        <label style="margin-top: 5px;" for="">Youtube</label>
+                        <input name="youTube" class="rounded marginCreate inputCreate baseInput" type="text" required>
+                    </div>
+
+                    <!-- description -->
+                    <div style="position: relative;">
+                        <label id="descriptionLabel" style="margin-top: 5px;" for="">Description</label>
+                        <textarea name="content" class="rounded marginCreate inputCreate baseInput"
+                            style=" height: 100px; resize: none;" name="" id="" cols="30" rows="10" required></textarea>
+                    </div>
+
+                    <!-- image -->
+                    <div id="imageLine" class="imageLine">
+                        <label class="d-inline lineLabel" for="">Add
+                            Image</label>
+                        <div class="d-inline marginCreate uploadContainer" style="margin-left: 110px;">
+                            <div style="width: fit-content; height: fit-content; top: 0;" class="image-upload d-inline">
+                                <label id="imageLabel1" for="imageInput1"
+                                    style="width: fit-content; height: fit-content;">
+                                    <img id="image1" style="width: 30px;"
+                                        src="{% static 'images/uploadImage-removebg-preview.png' %}" />
+                                </label>
+                                <input name="fistImage" accept="image/*" style="display: none;" id="imageInput1"
+                                    type="file" required />
+                            </div>
+
+                            <div class="image-upload d-inline image2">
+                                <label id="imageLabel2" for="imageInput2"
+                                    style="width: fit-content; height: fit-content;">
+                                    <img id="image2" style="width: 30px;"
+                                        src="{% static 'images/uploadImage-removebg-preview.png' %}" />
+                                </label>
+                                <input name="secondImage" accept="image/*" style="display: none;" id="imageInput2"
+                                    type="file" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- text file -->
+                    <div style="position: relative;">
+                        <label class="d-inline lineLabel" for="">Add
+                            File</label>
+
+                        <div class="image-upload d-inline marginCreate uploadContainer">
+                            <label for="pdfUpload">
+                                <img style="width: 30px;" src="{% static 'images/pdfUpload-removebg-preview.png' %}" />
+                            </label>
+
+                            <input name="pdf" accept="application/pdf" style="display: none;" id="pdfUpload" type="file"
+                                required />
+                        </div>
+
+                        <div id="pdfName" class="d-inline" style="margin-top: 5px;"></div>
+                    </div>
+
+                    <div style="display: flex; justify-content: right;">
+                        <button
+                            style="padding-left: 10px; padding-right: 10px; font-weight: 700; background-color: #38C68B;"
+                            class="round-box">
+                            Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

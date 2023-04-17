@@ -1,0 +1,1079 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- pop up login -->
+<div id="popUpLogin">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- css -->
+<pages-css>
+    <style>
+        /* round box css */
+        .round-box {
+            border-radius: 999px;
+        }
+
+
+        .titleContainer {
+            top: 0;
+            margin-top: 170px;
+            position: absolute;
+            z-index: 1;
+            margin-left: 10%;
+            color: #38C68B;
+        }
+
+
+        /* title size */
+        .title {
+            font-size: 100px;
+        }
+
+        @media screen and (max-width: 700px) {
+            .title {
+                font-size: 15vw;
+            }
+        }
+
+        /* login button container */
+        .login {
+            position: absolute;
+            z-index: 1;
+            color: #38C68B;
+            bottom: 0;
+            right: 0;
+            margin-right: 5%;
+            margin-bottom: 120px;
+            width: 20%;
+            left: auto;
+        }
+
+        @media screen and (max-width: 835px) {
+            .login {
+                position: absolute;
+                z-index: 1;
+                color: #38C68B;
+                bottom: 0;
+                right: 0;
+                margin-right: 4%;
+                margin-bottom: 50px;
+                width: 35%;
+                left: auto;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .login {
+                position: absolute;
+                z-index: 1;
+                color: #38C68B;
+                bottom: 0;
+                right: 0;
+                margin-right: 4%;
+                margin-bottom: 50px;
+                width: 45%;
+                left: auto;
+            }
+        }
+
+
+
+
+        /* action button (login & resister) */
+        .actionButton {
+            width: 100%;
+            font-size: 30px;
+            font-weight: 900;
+            background-color: #38C68B;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s ease;
+            width: 80%;
+            height: 80px;
+            padding: 5px;
+            font-size: 25px;
+        }
+
+        @media screen and (max-width: 700px) {
+            .actionButton {
+                font-size: 8vw;
+            }
+        }
+
+        .actionButton:hover {
+            background-color: #353535;
+            color: #38C68B;
+        }
+
+        /* signup button container */
+        .signup {
+            position: absolute;
+            z-index: 1;
+            color: #38C68B;
+            bottom: 0;
+            right: 0;
+            left: auto;
+            margin-right: 20%;
+            margin-bottom: 20px;
+            width: 20%;
+        }
+
+        @media screen and (max-width: 835px) {
+            .signup {
+                position: absolute;
+                z-index: 1;
+                color: #38C68B;
+                bottom: 0;
+                right: auto;
+                left: 0;
+                margin-left: 4%;
+                margin-bottom: 50px;
+                width: 35%;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .signup {
+                position: absolute;
+                z-index: 1;
+                color: #38C68B;
+                bottom: 0;
+                right: auto;
+                left: 0;
+                margin-left: 4%;
+                margin-bottom: 50px;
+                width: 45%;
+            }
+        }
+
+        .signupButton {
+            width: 100%;
+            font-size: 30px;
+            font-weight: 999;
+            background-color: #38C68B;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.5s ease;
+        }
+
+        .signupButton:hover {
+            background-color: #353535;
+            color: #38C68B;
+        }
+
+        .Background {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* descript1 */
+        .descript1 {
+            position: absolute;
+            width: 30%;
+            height: fit-content;
+            background-color: #1f1f1f;
+            z-index: 1;
+            margin-left: 10%;
+            box-shadow: 20px 15px #000000af;
+            top: 0;
+            margin-top: 30%;
+            border: #38C68B 3px solid;
+            padding: 10px;
+            font-size: 25px;
+            font-weight: 700;
+            color: #38C68B;
+            display: block;
+        }
+
+        @media screen and (max-width: 1000px) {
+            .descript1 {
+                display: none;
+            }
+        }
+
+        .secondContainer {
+            position: relative;
+            width: 100%;
+            background-color: #353535;
+        }
+
+        /* descript 2 */
+        .descript2 {
+            position: absolute;
+            width: 40%;
+            height: fit-content;
+            background-color: #1f1f1f;
+            z-index: 1;
+            box-shadow: 20px 15px #000000af;
+            top: 0;
+            border: #38C68B 3px solid;
+            padding: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #38C68B;
+            right: 0;
+            margin-right: 50px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        @media screen and (max-width: 1000px) {
+            .descript2 {
+                position: absolute;
+                width: 40%;
+                height: fit-content;
+                background-color: #1f1f1f;
+                z-index: 1;
+                box-shadow: 20px 15px #000000af;
+                top: 0;
+                border: #38C68B 3px solid;
+                padding: 10px;
+                font-size: 20px;
+                font-weight: 700;
+                color: #38C68B;
+                right: 0;
+                margin-right: 50px;
+                margin-top: 30px;
+                display: block;
+                left: auto;
+            }
+        }
+
+        @media screen and (max-width: 740px) {
+            .descript2 {
+                position: absolute;
+                width: 90%;
+                height: fit-content;
+                background-color: #1f1f1f;
+                z-index: 1;
+                box-shadow: 20px 15px #000000af;
+                top: 0;
+                border: #38C68B 3px solid;
+                padding: 10px;
+                font-size: 20px;
+                font-weight: 700;
+                color: #38C68B;
+                left: 0;
+                right: 0;
+                margin-right: auto;
+                margin-left: auto;
+                display: block;
+            }
+        }
+
+        /* short description */
+        .shortDescript {
+            position: absolute;
+            right: 0;
+            width: 50%;
+            margin-right: 50px;
+            margin-top: 30px;
+            color: #38C68B;
+            left: auto;
+        }
+
+        @media screen and (max-width: 1000px) {
+            .shortDescript {
+                position: absolute;
+                right: auto;
+                width: 40%;
+                margin-left: 50px;
+                margin-top: 30px;
+                color: #38C68B;
+                left: 0;
+            }
+        }
+
+        @media screen and (max-width: 740px) {
+            .shortDescript {
+                position: absolute;
+                right: 0;
+                left: 0;
+                width: 90%;
+                margin-right: auto;
+                margin-left: auto;
+                margin-top: 30px;
+                color: #38C68B;
+            }
+        }
+
+        .grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            margin-top: 300px;
+            position: absolute;
+        }
+
+        /* flip cards */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 100%;
+
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            background-color: #bbb;
+            color: black;
+        }
+
+        .flip-card-back {
+            background-color: #1b1b1b;
+            color: #38C68B;
+            transform: rotateY(180deg);
+            border: #38C68B 3px solid;
+        }
+
+
+
+
+        /* font size for image */
+        .fontSizeImage {
+            font-size: 3.7vw;
+            text-align: left;
+            margin-left: 10px;
+        }
+
+        @media screen and (max-width: 1000px) {
+            .fontSizeImage {
+                font-size: 3.5vw;
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
+
+        @media screen and (max-width: 835px) {
+            .fontSizeImage {
+                font-size: 8vw;
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
+
+        @media screen and (max-width: 685px) {
+            .fontSizeImage {
+                font-size: 7.5vw;
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .fontSizeImage {
+                font-size: 7vw;
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
+
+        @media screen and (max-width: 410px) {
+            .fontSizeImage {
+                font-size: 6.5vw;
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
+
+        @media screen and (max-width: 350px) {
+            .fontSizeImage {
+                font-size: 6vw;
+                text-align: left;
+                margin-left: 10px;
+            }
+        }
+
+        /* grid for gif choosing */
+        .grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* input login */
+        .inputLogin {
+            width: 100%;
+            color: #38C68B;
+            padding: 1px;
+            padding-left: 5px;
+            background-color: rgb(90, 90, 90);
+            border: 2px solid #38C68B;
+        }
+
+        /* popup login background */
+        .popUpLoginBackGround {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.336);
+            position: fixed;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* popup login logo */
+        .leftLogoLogin {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            margin-left: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media screen and (max-width: 400px) {
+            .leftLogoLogin {
+                display: none;
+            }
+        }
+
+        /* popup login Container */
+        .popUpLoginContainer {
+            width: 50%;
+            height: fit-content;
+            border: #38C68B 5px solid;
+            background-color: rgba(0, 0, 0, 0.678);
+            padding: 30px;
+            position: relative;
+            z-index: 3;
+        }
+
+        @media screen and (max-width: 1060px) {
+            .popUpLoginContainer {
+                width: 60%;
+                height: fit-content;
+                border: #38C68B 5px solid;
+                background-color: rgba(0, 0, 0, 0.678);
+                padding: 30px;
+                position: relative;
+                z-index: 3;
+            }
+        }
+
+        @media screen and (max-width: 992px) {
+            .popUpLoginContainer {
+                width: 70%;
+                height: fit-content;
+                border: #38C68B 5px solid;
+                background-color: rgba(0, 0, 0, 0.678);
+                padding: 30px;
+                position: relative;
+                z-index: 3;
+            }
+        }
+
+        @media screen and (max-width: 550px) {
+            .popUpLoginContainer {
+                width: 100%;
+                height: fit-content;
+                border: #38C68B 5px solid;
+                background-color: rgba(0, 0, 0, 0.678);
+                padding: 30px;
+                position: relative;
+                padding-top: 50px;
+                padding-bottom: 50px;
+                z-index: 3;
+            }
+        }
+
+        /* popup login label */
+        .formLabel {
+            display: flex;
+            justify-content: left;
+            color: #38C68B;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        /* popup link container */
+        .popUpLinkContainer {
+            display: flex;
+            justify-content: right;
+            margin-top: 10px;
+        }
+
+        @media screen and (max-width: 400px) {
+            .popUpLinkContainer {
+                display: flex;
+                justify-content: left;
+                margin-top: 10px;
+            }
+        }
+
+        /* popup link container */
+        .popUpLink {
+            color: #38C68B;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .popUpLink:hover {
+            color: #1c6e4c;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .popUpLoginButton {
+            border: black 2px solid;
+            background-color: #38C68B;
+            font-weight: 700;
+            font-size: 20px;
+            padding: 3px;
+            padding-left: 10px;
+            padding-right: 10px;
+            width: 30%;
+        }
+
+        @media screen and (max-width: 400px) {
+            .popUpLoginButton {
+                border: black 2px solid;
+                background-color: #38C68B;
+                font-weight: 700;
+                font-size: 20px;
+                padding: 3px;
+                padding-left: 10px;
+                padding-right: 10px;
+                width: 40%;
+            }
+        }
+
+        .popUpLoginButtonContainer {
+            display: flex;
+            justify-content: right;
+            margin-top: 30px;
+        }
+
+        @media screen and (max-width: 400px) {
+            .popUpLoginButtonContainer {
+                display: flex;
+                justify-content: center;
+                margin-top: 30px;
+            }
+        }
+
+        #backGroundImage{
+            width: 100%;
+            height: auto;
+        }
+
+        @media screen and (max-width: 1043px) {
+            #backGroundImage{
+                width: auto;
+                height: 100%;
+            }
+        }
+    </style>
+</pages-css>
+
+
+
+
+
+
+
+
+
+
+
+<!-- main content -->
+<div style="position: relative;">
+    <!-- head image (1st section) -->
+    <div style="height: 80vh; width: 100%; position: relative;">
+        <!-- title -->
+        <div id="titleContainer" class="titleContainer">
+            <h1 data-aos="fade-right" id="title" class="title"><strong>Moonware CMS</strong></h1>
+        </div>
+
+        <!-- login & signup -->
+        <!-- login -->
+        <div data-aos="fade-left" id="login" class="login">
+            <button onclick="popUpLoginOn()" id="loginButton" class="round-box actionButton">LOGIN</button>
+        </div>
+
+        <!-- sign up -->
+        <div data-aos="fade-right" id="signup" class="signup">
+            <a href="register/" style="width: 100%; height: 100%; text-decoration: none;">
+                <button id="signupButton" class="round-box actionButton">SIGNUP</button>
+            </a>
+        </div>
+
+        <!-- background -->
+        <div class="Background" id="Background">
+            <div style="background-color: rgba(0, 0, 0, 0.521); position: absolute; width: 100%; height: 100%;">
+            </div>
+            <img id="backGroundImage" width="100%"
+                src="{% static 'images/D_E_P_R_E_S_S_E_D_fps_shooting_game_poster_cyberpunk_2d9e85e9-cc2b-4eea-b65b-e96202db8902.png' %}"
+                alt="">
+        </div>
+    </div>
+
+    <!-- descript (this will go free style lol) -->
+    <div data-aos="fade-up" id="descript1" class="descript1">
+        <p>
+            Moonware is a CMS web system designed for managing games, operating systems, and IoT devices. It
+            simplifies content
+            creation and management, and includes a powerful content editor for customization ...
+        </p>
+    </div>
+
+    <!-- other info (2nd section) -->
+    <div id="secondContainer" class="secondContainer">
+        <!-- descript (this will go free style lol) -->
+        <div data-aos="fade-right" id="descript2" class="descript2">
+            <p>
+                Moonware is a CMS web system designed for managing games, operating systems, and IoT devices. It
+                simplifies content
+                creation and management, and includes a powerful content editor for customization ...
+            </p>
+        </div>
+
+        <!-- short descript -->
+        <div data-aos="fade-left" id="shortDescript" class="shortDescript">
+            <!-- label -->
+            <h3 style="font-weight: 800; font-size: 40px;">
+                Moonware Center
+            </h3>
+
+            <!-- descript -->
+            <p style="font-size: 20px;">
+                Moonware is a software company that specializes in developing innovative solutions for a range
+                of applications,
+                including games, operating systems, and IoT devices ...
+            </p>
+        </div>
+
+        <!-- grid here -->
+        <div data-aos="fade-right" id="grid" class="grid">
+            <div style="padding: 20px;">
+                <div class="flip-card ">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img id="flipImg" style="border: #38C68B 3px solid;" width="100%"
+                                src="{% static 'images/D_E_P_R_E_S_S_E_D_cyber_punk_charcter_with_gun_1feb1d02-2028-49bc-b054-556da76868d1.png' %}"
+                                alt="">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fontSizeImage">
+                                𝕎𝕖 <br> 𝕨𝕠𝕣𝕜 <br> 𝕨𝕚𝕥𝕙 𝕀𝕠𝕋
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 20px;">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img style="border: #38C68B 3px solid;" width="100%"
+                                src="{% static 'images/D_E_P_R_E_S_S_E_D_cyber_punk_charcter_with_gun_6cee8fb5-03c8-44a1-bb9c-94757e61ccd2.png' %}"
+                                alt="">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fontSizeImage">
+                                𝕎𝕖 <br> 𝔹𝕦𝕚𝕝𝕕 <br> 𝔾𝕒𝕞𝕖
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 20px;">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img style="border: #38C68B 3px solid;" width="100%"
+                                src="{% static 'images/D_E_P_R_E_S_S_E_D_cyber_punk_charcter_with_gun_5122c8ac-8f42-402b-b295-3f19581f668c.png' %}"
+                                alt="">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fontSizeImage">
+                                𝕎𝕖 <br> 𝔻𝕖𝕤𝕚𝕘𝕟 <br> ℂ𝕙𝕒𝕣𝕒𝕔𝕥𝕖𝕣
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 20px; position: relative;">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img style="border: #38C68B 3px solid;" width="100%"
+                                src="{% static 'images/D_E_P_R_E_S_S_E_D_cyber_punk_charcter_with_gun_b7ee9b11-0c3b-4bbe-bd42-c545b162ed58.png' %}"
+                                alt="">
+                        </div>
+                        <div class="flip-card-back">
+                            <p class="fontSizeImage">
+                                𝕎𝕖 <br> ℙ𝕣𝕠𝕧𝕚𝕕𝕖 <br> ℂ𝕝𝕠𝕦𝕕
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- script head image -->
+<script>
+    var Background = document.getElementById("Background");
+    var backGroundImage = document.getElementById("backGroundImage");
+
+    goldenNum = 7/4;
+    silverNum =  Background.clientWidth/Background.clientHeight
+
+    if(silverNum<goldenNum){
+        backGroundImage.style.width = "auto"
+        backGroundImage.style.height = "100%"
+    } else {
+        backGroundImage.style.width = "100%"
+        backGroundImage.style.height = "auto"
+    }
+
+    window.addEventListener('load', function (){
+        goldenNum = 7/4;
+        silverNum =  Background.clientWidth/Background.clientHeight
+
+        if(silverNum<goldenNum){
+            backGroundImage.style.width = "auto"
+            backGroundImage.style.height = "100%"
+        } else {
+            backGroundImage.style.width = "100%"
+            backGroundImage.style.height = "auto"
+        }
+    })
+
+    window.addEventListener('resize', function (){
+        goldenNum = 7/4;
+        silverNum =  Background.clientWidth/Background.clientHeight 
+
+        if(silverNum<goldenNum){
+            backGroundImage.style.width = "auto"
+            backGroundImage.style.height = "100%"
+        } else {
+            backGroundImage.style.width = "100%"
+            backGroundImage.style.height = "auto"
+        }
+    })
+
+</script>
+
+
+
+
+
+<!-- script for grid and second part -->
+<script>
+    // change on load
+    window.addEventListener('load', function () {
+        // secondContainer
+        var secondContainer = document.getElementById("secondContainer");
+
+        // decript 2
+        var descript2 = document.getElementById("descript2");
+
+        // short description
+        var shortDescript = document.getElementById("shortDescript");
+
+        // images & grid
+        var grid = document.getElementById("grid");
+        var flipImg = document.getElementById("flipImg");
+
+        // dealing
+        // screen > 1000px
+        if (window.innerWidth > 835) {
+
+            // grid
+            grid.style.gridTemplateColumns = "repeat(4, 1fr)";
+            grid.style.marginTop = shortDescript.clientHeight + 50 + "px";
+            grid.style.height = flipImg.clientHeight + 40 + "px";
+
+            // calculate height for second container
+            secondContainer.style.height = shortDescript.clientHeight + grid.clientHeight + 100 + "px";
+        }
+
+        // screen < 835px
+        if (window.innerWidth <= 835 && window.innerWidth > 740) {
+
+            // grid
+            grid.style.gridTemplateColumns = "repeat(2, 1fr)";
+            grid.style.marginTop = 350 + "px";
+            grid.style.height = 2 * (flipImg.clientHeight + 40) + "px";
+
+            // calculate height for second container
+            secondContainer.style.height = shortDescript.clientHeight + grid.clientHeight + 100 + "px";
+        }
+
+        // screen < 740px
+        if (window.innerWidth <= 740) {
+
+            // grid
+            grid.style.marginTop = shortDescript.clientHeight + descript2.clientHeight + 80 + "px";
+            grid.style.gridTemplateColumns = "repeat(2, 1fr)";
+            grid.style.height = 2 * (flipImg.clientHeight + 40) + "px";
+
+            // calculate height for second container
+            secondContainer.style.height = shortDescript.clientHeight + descript2.clientHeight + grid.clientHeight + 100 + "px";
+        }
+    });
+
+    // change on resize
+    window.addEventListener('resize', function () {
+        // secondContainer
+        var secondContainer = document.getElementById("secondContainer");
+
+        // decript 2
+        var descript2 = document.getElementById("descript2");
+
+        // short description
+        var shortDescript = document.getElementById("shortDescript");
+
+        // images & grid
+        var grid = document.getElementById("grid");
+        var flipImg = document.getElementById("flipImg");
+
+        // dealing
+        // screen > 1000px
+        if (window.innerWidth > 835) {
+
+            // grid
+            grid.style.gridTemplateColumns = "repeat(4, 1fr)";
+            grid.style.marginTop = shortDescript.clientHeight + 50 + "px";
+            grid.style.height = flipImg.clientHeight + 40 + "px";
+
+            // calculate height for second container
+            secondContainer.style.height = shortDescript.clientHeight + grid.clientHeight + 100 + "px";
+        }
+
+        // screen < 835px
+        if (window.innerWidth <= 835 && window.innerWidth > 740) {
+
+            // grid
+            grid.style.gridTemplateColumns = "repeat(2, 1fr)";
+            grid.style.marginTop = 350 + "px";
+            grid.style.height = 2 * (flipImg.clientHeight + 40) + "px";
+
+            // calculate height for second container
+            secondContainer.style.height = shortDescript.clientHeight + grid.clientHeight + 100 + "px";
+        }
+
+        // screen < 740px
+        if (window.innerWidth <= 740) {
+
+            // grid
+            grid.style.marginTop = shortDescript.clientHeight + descript2.clientHeight + 80 + "px";
+            grid.style.gridTemplateColumns = "repeat(2, 1fr)";
+            grid.style.height = 2 * (flipImg.clientHeight + 40) + "px";
+
+            // calculate height for second container
+            secondContainer.style.height = shortDescript.clientHeight + descript2.clientHeight + grid.clientHeight + 100 + "px";
+        }
+    });
+
+</script>
+
+<!-- script for description 2 -->
+<script>
+    var descript2 = document.getElementById("descript2");
+    var shortDescript = document.getElementById("shortDescript");
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 740) {
+            descript2.style.marginTop = shortDescript.clientHeight + 50 + "px";
+        } else {
+            descript2.style.marginTop = null;
+        }
+    });
+
+    // change on resize
+    window.addEventListener('resize', function () {
+        if (window.innerWidth <= 740) {
+            descript2.style.marginTop = shortDescript.clientHeight + 50 + "px";
+        } else {
+            descript2.style.marginTop = null;
+        }
+    });
+</script>
+
+<!-- script for title container -->
+<script>
+    var titleContainer = document.getElementById("titleContainer");
+    var login = document.getElementById("login");
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth < 740) {
+            // title and title container
+            titleContainer.style.top = "auto";
+            titleContainer.style.bottom = 0;
+            titleContainer.style.marginBottom = login.clientHeight + 50 + "px";
+        } else {
+            titleContainer.style.top = null;
+            titleContainer.style.bottom = null;
+            titleContainer.style.marginBottom = null;
+        }
+    });
+
+    // change on resize
+    window.addEventListener('resize', function () {
+        if (window.innerWidth < 740) {
+            // title and title container
+            titleContainer.style.top = "auto";
+            titleContainer.style.bottom = 0;
+            titleContainer.style.marginBottom = login.clientHeight + 50 + "px";
+        } else {
+            titleContainer.style.top = null;
+            titleContainer.style.bottom = null;
+            titleContainer.style.marginBottom = null;
+        }
+    });
+</script>
+
+<!-- script pop up login -->
+<script>
+    var popUpLogin = document.getElementById("popUpLogin")
+
+    // on
+    function popUpLoginOn() {
+        popUpLogin.innerHTML = `<div class="popUpLoginBackGround">
+            <div class="popUpLoginBackGround" onclick="popUpLoginOff()"></div>
+    <div class="rounded popUpLoginContainer" data-aos="fade-right" >
+        <!-- left logo -->
+        <div class="leftLogoLogin">
+            <img width="70px" src="{% static 'images/moonware-logo-removebg-preview2.png' %}" alt="">
+        </div>
+
+        <form method="POST">
+        {% csrf_token %}
+        <!-- user name -->
+        <div class="row">
+            <!-- label -->
+            <div class="col-md-3 formLabel">
+                <label for="">User Name</label>
+            </div>
+
+            <!-- input -->
+            <div class="col-md-9">
+                <input class="round-box inputLogin" type="text" name="username" id="">
+            </div>
+        </div>
+
+        <!-- password -->
+        <div class="row" style="margin-top: 20px;">
+            <!-- label -->
+            <div class="col-md-3 formLabel">
+                <label for="">Password</label>
+            </div>
+
+            <!-- input -->
+            <div class="col-md-9">
+                <input class="round-box inputLogin" type="password" name="password" id="">
+            </div>
+        </div>
+
+        <!-- extends links -->
+        <!-- forgot password -->
+        <div class="row">
+            <div class="col-md-12 popUpLinkContainer">
+                <a class="popUpLink" href="forgotPassword/">Ooooppss I forgot my
+                    password!</a>
+            </div>
+        </div>
+
+        <!-- Register (dont have account) -->
+        <div class="row">
+            <div class="col-md-12 popUpLinkContainer">
+                <a class="popUpLink" href="register/">Oh no cringe! I dont
+                    have account</a>
+            </div>
+        </div>
+
+        <!-- button -->
+        <div class="row">
+            <div class="col-md-12 popUpLoginButtonContainer">
+                
+                <button type="submit" class="round-box popUpLoginButton">Login</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    
+</div>`;
+    }
+
+    // off
+    function popUpLoginOff() {
+        popUpLogin.innerHTML = ``;
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

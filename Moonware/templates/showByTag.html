@@ -1,0 +1,933 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<!-- css -->
+<pages-css>
+    <style>
+        /* round box css */
+        .round-box {
+            border-radius: 999px;
+            padding: 5px;
+        }
+
+        /* table */
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td,
+        th {
+            /* border: 1px solid #dddddd; */
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            /* background-color: #dddddd; */
+        }
+
+
+
+        .table-head {
+            background-color: #38C68B;
+        }
+
+        .table-body {
+            color: #38C68B;
+        }
+
+        .sortLink {
+            color: #38C68B;
+        }
+
+        .sortLink:hover {
+            color: #000;
+            background-color: #38C68B;
+        }
+
+        .table-button {
+            background-color: rgba(0, 0, 0, 0);
+            color: #38C68B;
+            width: fit-content;
+            border: #38C68B 2px solid;
+        }
+
+        .table-button:hover {
+            color: #000000;
+            width: fit-content;
+            background-color: #38C68B;
+        }
+
+        .backgroundImage {
+            width: 100%;
+            height: auto;
+        }
+
+        @media screen and (max-width: 1130px) {
+            .backgroundImage {
+                width: auto;
+                height: 100%;
+            }
+        }
+
+        /* main content of this page */
+        .mainContent {
+            position: absolute;
+            width: 100%;
+            height: fit-content;
+            top: 0;
+            padding: 3%;
+            padding-top: 50px;
+            margin-top: 50px;
+        }
+
+        /* css for form */
+        .form {
+            background-color: rgba(0, 0, 0, 0.719);
+            width: 60%;
+            border: #38C68B 3px solid;
+            color: #38C68B;
+            padding: 20px;
+            position: relative;
+        }
+
+        @media screen and (max-width: 1000px) {
+            .form {
+                background-color: rgba(0, 0, 0, 0.719);
+                width: 80%;
+                border: #38C68B 3px solid;
+                color: #38C68B;
+                padding: 20px;
+                position: relative;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .form {
+                background-color: rgba(0, 0, 0, 0.719);
+                width: 90%;
+                border: #38C68B 3px solid;
+                color: #38C68B;
+                padding: 20px;
+                position: relative;
+            }
+        }
+
+        /* base css for input feild */
+        .baseInput {
+            position: absolute;
+            left: 0;
+            background-color: rgb(41, 41, 41);
+            border: #38C68B 2px solid;
+            color: #38C68B;
+            width: 85%;
+        }
+
+        @media screen and (max-width: 700px) {
+            .baseInput {
+                position: absolute;
+                left: 0;
+                background-color: rgb(41, 41, 41);
+                border: #38C68B 2px solid;
+                color: #38C68B;
+                width: 80%;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            .baseInput {
+                position: relative;
+                width: 100%;
+                left: 0;
+                background-color: rgb(41, 41, 41);
+                border: #38C68B 2px solid;
+                color: #38C68B;
+            }
+        }
+
+        /* css for image line */
+        .imageLine {
+            position: relative;
+            margin-top: 70px;
+        }
+
+        @media screen and (max-width: 500px) {
+            .imageLine {
+                position: relative;
+                margin-top: 0px;
+            }
+        }
+
+        /* image line label */
+        .lineLabel {
+            margin-top: 5px;
+            position: absolute;
+            top: 0;
+        }
+
+        @media screen and (max-width: 500px) {
+            .lineLabel {
+                margin-top: 5px;
+                position: relative;
+                top: 0;
+            }
+        }
+
+        /* css for all input container */
+        .allInpuContainer {
+            margin-top: 20px;
+        }
+
+        @media screen and (max-width: 500px) {
+            .allInpuContainer {
+                margin-top: 0px;
+            }
+        }
+
+        /* black layer background for form */
+        .blackLayerForm {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.589);
+            position: fixed;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .xButton {
+            width: 30px;
+            height: 30px;
+            background-color: #38C68B;
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: black;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        /* image upload 2 */
+        .image2 {
+            width: fit-content;
+            height: fit-content;
+            position: absolute;
+            top: 0;
+            margin-left: 10px;
+        }
+
+        @media screen and (max-width: 500px) {
+            .image2 {
+                width: fit-content;
+                height: fit-content;
+                position: absolute;
+                top: 0;
+                margin-left: 10px;
+                margin-top: 23px;
+            }
+        }
+
+        /* button hover */
+        .buttonHover {
+            background-color: #38C68B;
+            transition: background-color 0.5s ease;
+        }
+
+        .buttonHover:hover {
+            background-color: #3b3b3b;
+            color: #38C68B;
+            border: #38C68B 2px solid;
+        }
+
+        /* delete confirmation container */
+        .deleteContainer {
+            width: 60%;
+            height: fit-content;
+            border: #38C68B 3px solid;
+            color: #38C68B;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.664);
+        }
+
+        @media screen and (max-width: 636px) {
+            .deleteContainer {
+                width: 90%;
+                height: fit-content;
+                border: #38C68B 3px solid;
+                color: #38C68B;
+                padding: 20px;
+                background-color: rgba(0, 0, 0, 0.664);
+            }
+        }
+
+        /* delete post confirm buttons */
+        .deleteButton {
+            width: fit-content;
+            height: fit-content;
+            padding: 2px 10px 2px 10px;
+            background-color: #38C68B;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        .deleteButton:hover {
+            width: fit-content;
+            height: fit-content;
+            padding: 2px 10px 2px 10px;
+            background-color: #444444;
+            color: #38C68B;
+            border: #38C68B 2px solid;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        
+    </style>
+</pages-css>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- update -->
+<div id="popUpUpdate">
+    <div class="blackLayerForm">
+        <!-- form -->
+        <div id="form" class="form" style="overflow: hidden;">
+            <!-- x button -->
+            <div onclick="updateOff()" class="xButton">
+                x
+            </div>
+            <form method="POST" enctype="multipart/form-data" action="../updatePost/">
+                {% csrf_token %}
+                <div class="allInpuContainer">
+                    <input id="postId" name="postId" type="hidden">
+
+                    <!-- title -->
+                    <div style="position: relative;">
+                        <label style="margin-top: 5px;" for="">Title</label>
+                        <input id="titleUpdate" name="title" class="rounded marginCreate inputCreate baseInput" type="text" required>
+                    </div>
+
+                    <!-- youtube link -->
+                    <div style="position: relative;">
+                        <label style="margin-top: 5px;" for="">Youtube</label>
+                        <input id="youTubeUpdate" name="youTube" class="rounded marginCreate inputCreate baseInput" type="text" required>
+                    </div>
+
+                    <!-- description -->
+                    <div style="position: relative;">
+                        <label id="descriptionLabel" style="margin-top: 5px;" for="">Description</label>
+                        <textarea id="contentUpdate" name="content" class="rounded marginCreate inputCreate baseInput"
+                            style=" height: 100px; resize: none;" name="" id="" cols="30" rows="10" required></textarea>
+                    </div>
+
+                    <!-- image -->
+                    <div id="imageLine" class="imageLine" style="height: 150px;">
+                        <label class="d-inline lineLabel" for="">Add
+                            Image</label>
+                        <div class="d-inline marginCreate uploadContainer" style="margin-left: 110px;">
+                            <div style="width: fit-content; height: fit-content; top: 0;" class="image-upload d-inline">
+                                <label id="imageLabel1Update" for="imageInput1update"
+                                    style="width: 100px; height: 100px; border: 2px solid #38C68B">
+                                    <img id="image1Update" style="width: 100%; height: 100%;"
+                                        src="{% static 'images/D_E_P_R_E_S_S_E_D_cyber_punk_charcter_with_gun_b7ee9b11-0c3b-4bbe-bd42-c545b162ed58.png' %}" />
+                                </label>
+                                <input name="fistImage" accept="image/*" style="display: none;" id="imageInput1update"
+                                    type="file"/>
+                            </div>
+
+                            <div class="image-upload d-inline image2">
+                                <label id="imageLabel2Update" for="imageInput2Update"
+                                    style="width: 100px; height: 100px; border: 2px solid #38C68B">
+                                    <img id="image2Update" style="width: 100%; height: 100%;"
+                                        src="{% static 'images/D_E_P_R_E_S_S_E_D_cyber_punk_charcter_with_gun_b7ee9b11-0c3b-4bbe-bd42-c545b162ed58.png' %}" />
+                                </label>
+                                <input name="secondImage" accept="image/*" style="display: none;" id="imageInput2Update"
+                                    type="file"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- text file -->
+                    <div style="position: relative;">
+                        <label class="d-inline lineLabel" for="">Add
+                            File</label>
+
+                        <div class="image-upload d-inline marginCreate uploadContainer">
+                            <label for="pdfUploadUpdate">
+                                <img style="width: 30px;" src="{% static 'images/pdfUpload-removebg-preview.png' %}" />
+                            </label>
+
+                            <input name="pdf" accept="application/pdf" style="display: none;" id="pdfUploadUpdate" type="file"/>
+                        </div>
+
+                        <div id="pdfNameUpdate" class="d-inline" style="margin-top: 5px;">hehe.pdf</div>
+                    </div>
+
+                    <div style="display: flex; justify-content: right;">
+                        <button type="submit"
+                            style="padding-left: 10px; padding-right: 10px; font-weight: 700; background-color: #38C68B;"
+                            class="round-box">
+                            Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- delete -->
+<div id="deletePost"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- main body -->
+<div id="body" style="height: 100vh; width: 100%; min-height: 100vh;">
+    <!-- background -->
+    <div
+        style="width: 100%; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; position: fixed;">
+        <!-- black layer -->
+        <div style="width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.548); position: absolute;">
+        </div>
+
+        <!-- back ground -->
+
+        <img id="backgroundImage" class="backgroundImage"
+            src="{% static 'images/untitled_cyberpunk_girl_79af61d0-e7ed-4821-8a01-de98d57d7ff6.png' %}" alt="">
+
+
+    </div>
+
+    <!-- main holder -->
+    <div id="mainContent" class="mainContent">
+        <div style="margin-top: 20px; font-size: 20px;">
+            <table id="table">
+                <tr class="table-head">
+                    <th>Tag Name: {{ tags.name }}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                {% for tagLink in tagLinks %}
+                    {% if tagLink.post.user == user %}
+                        <tr data-aos="fade-right" class="table-body">
+                            <td>{{ tagLink.post.title }}</td>                    
+                            <td>
+                                {% if tagLink.post.season.firstDeadline > accessOn %}
+                                    <button class="rounded table-button" onclick="updateOn({{tagLink.post.id}}, `{{tagLink.post.title}}`, `{{tagLink.post.youTube}}`, `{{tagLink.post.content}}`, `{{tagLink.post.fistImage.img}}`, `{{tagLink.post.secondImage.img}}`, `{{tagLink.post.pdf.pdf}}`)">Edit</button>
+                                {% endif %}
+                            </td>                       
+                            <td><button class="rounded table-button" onclick="deleteConfirmOn('{{ tagLink.post.title }}', {{ tagLink.post.id }})">Delete</button></td>
+                            <td><a href="../postDetail/{{ tagLink.post.id }}"><button class="rounded table-button">View</button></a></td>
+                        </tr>
+                    {% else %}
+                    <tr data-aos="fade-right" class="table-body">
+                        <td>{{ tagLink.post.title }}</td>                    
+                        <td></td>                       
+                        <td></td>
+                        <td><a href="../postDetail/{{ tagLink.post.id }}"><button class="rounded table-button">View</button></a></td>
+                    </tr>
+                    {% endif %}
+                
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- scripts -->
+<!-- pop-up create new && ajust elements -->
+<script>
+    var popUpCreateNew = document.getElementById("popUpCreateNew");
+
+    popUpCreateNew.style.opacity = 0;
+    popUpCreateNew.style.display = "block";
+
+    setTimeout(function () {
+        popUpCreateNew.style.display = "none";
+    }, 1000);
+
+    function createNew() {
+        popUpCreateNew.style.opacity = 1;
+        popUpCreateNew.style.display = "block";
+    }
+
+    function createNewOff() {
+        popUpCreateNew.style.display = "none";
+    }
+
+</script>
+
+<!-- script to set height of all elements equal to height of table -->
+<script>
+    var body = document.getElementById("body");
+    var mainContent = document.getElementById("mainContent");
+
+    var goldenNumber = window.innerWidth / window.innerHeight;
+    var silverNumber = 7 / 4;
+    var backgroundImage = document.getElementById("backgroundImage");
+
+    // change on load
+    window.addEventListener('load', function () {
+        body.style.height = 1.5 * mainContent.clientHeight + "px";
+    });
+    // change on resize
+    window.addEventListener("resize", function () {
+        body.style.height = 1.5 * mainContent.clientHeight + "px";
+    });
+</script>
+
+<!-- [ultra supa update] make background responsive fit with all screen, even TV or smart watch Seeeeesssshh! -->
+<script>
+    var silverNumber = 7 / 4;
+    var backgroundImage = document.getElementById("backgroundImage");
+
+    // change on load
+    window.addEventListener('load', function () {
+        var goldenNumber = window.innerWidth / window.innerHeight;
+        if (goldenNumber >= silverNumber) {
+            backgroundImage.style.width = 100 + "%";
+            backgroundImage.style.height = "auto";
+        } else {
+            backgroundImage.style.width = "auto";
+            backgroundImage.style.height = 100 + "%";
+        }
+    });
+    // change on resize
+    window.addEventListener("resize", function () {
+        var goldenNumber = window.innerWidth / window.innerHeight;
+        if (goldenNumber >= silverNumber) {
+            backgroundImage.style.width = 100 + "%";
+            backgroundImage.style.height = "auto";
+        } else {
+            backgroundImage.style.width = "auto";
+            backgroundImage.style.height = 100 + "%";
+        }
+    });
+</script>
+
+<!-- script for upload image 1 -->
+<script>
+    imageInput1.onchange = evt => {
+        // delare variables
+        var imageLine = document.getElementById("imageLine");
+        var imageLabel1 = document.getElementById("imageLabel1");
+        var image1 = document.getElementById("image1");
+
+        // setting up image
+        const [file] = imageInput1.files;
+        if (file) {
+            // setting environment
+            imageLabel1.style.width = 100 + "px";
+            imageLabel1.style.height = 100 + "px";
+            imageLabel1.style.overflow = "hidden";
+            imageLabel1.style.border = "2px solid #38C68B"
+            imageLine.style.height = 150 + "px";
+
+            // setting image
+            image1.src = URL.createObjectURL(file);
+            image1.style.height = 100 + "%";
+            image1.style.width = 100 + "%";
+        }
+    }
+
+
+</script>
+
+<!-- script for upload image 2 -->
+<script>
+    imageInput2.onchange = evt => {
+        // delare variables
+        var imageLine = document.getElementById("imageLine");
+        var imageLabel2 = document.getElementById("imageLabel2");
+        var image2 = document.getElementById("image2");
+
+        // setting up image
+        const [file] = imageInput2.files;
+        if (file) {
+            // setting environment
+            imageLabel2.style.width = 100 + "px";
+            imageLabel2.style.height = 100 + "px";
+            imageLabel2.style.overflow = "hidden";
+            imageLabel2.style.border = "2px solid #38C68B"
+            imageLine.style.height = 150 + "px";
+
+            // setting image
+            image2.src = URL.createObjectURL(file);
+            image2.style.height = 100 + "%";
+            image2.style.width = 100 + "%";
+        }
+    }
+</script>
+
+<!-- script for upload pdf file -->
+<script>
+    var pdfUpload = document.getElementById("pdfUpload");
+    var pdfName = document.getElementById("pdfName");
+
+    pdfUpload.onchange = function (evt) {
+        // declare variables
+        var pdfFileName = pdfUpload.files[0].name;
+
+        pdfName.innerHTML = pdfFileName;
+    };
+</script>
+
+<!-- margin for all item in create section -->
+<script>
+    const marginCreate = document.querySelectorAll('.marginCreate');
+    var descriptionLabel = document.getElementById("descriptionLabel");
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 500) {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = 0 + "px";
+            });
+        } else {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = descriptionLabel.clientWidth + 10 + "px";
+            });
+        }
+    });
+    // change on resize
+    window.addEventListener("resize", function () {
+        if (window.innerWidth <= 500) {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = 0 + "px";
+            });
+        } else {
+            marginCreate.forEach((marginCreate) => {
+                marginCreate.style.marginLeft = descriptionLabel.clientWidth + 10 + "px";
+            });
+        }
+    });
+</script>
+
+<!-- setting width for input feild -->
+<script>
+    const inputCreate = document.querySelectorAll('.inputCreate');
+    var form = document.getElementById("form");
+    var descriptionLabel = document.getElementById("descriptionLabel");
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 500) {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = 100 + "%";
+            });
+        } else {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = form.clientWidth - descriptionLabel.clientWidth - 40 + "px";
+            });
+        }
+    });
+    // change on resize 
+    window.addEventListener("resize", function () {
+        if (window.innerWidth <= 500) {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = 100 + "%";
+            });
+        } else {
+            inputCreate.forEach((inputCreate) => {
+                inputCreate.style.width = form.clientWidth - descriptionLabel.clientWidth - 40 + "px";
+            });
+        }
+    });
+
+</script>
+
+<!-- remove d-inline when screen change uploadContainer-->
+<script>
+    const uploadContainer = document.querySelectorAll('.uploadContainer');
+
+    // change on load
+    window.addEventListener('load', function () {
+        if (window.innerWidth <= 500) {
+            uploadContainer.forEach((uploadContainer) => {
+                uploadContainer.classList.remove("d-inline");
+            });
+        }
+    });
+    // change on resize 
+    window.addEventListener("resize", function () {
+        if (window.innerWidth <= 500) {
+            uploadContainer.forEach((uploadContainer) => {
+                uploadContainer.classList.remove("d-inline");
+            });
+        }
+    });
+</script>
+
+<!-- pop-up delete post -->
+<script>
+    var deletePost = document.getElementById("deletePost");
+
+    function deleteConfirmOn(name, id) {
+        deletePost.innerHTML = `<div
+                                    style="width: 100%; height: 100vh; position: fixed; background-color: rgba(0, 0, 0, 0.555); z-index: 3; display: flex; justify-content: center; align-items: center;">
+                                    <div class="deleteContainer">
+                                        <form action="../deletePost/" method="post">
+                                        {% csrf_token %}
+                                        <center>
+                                            <input name="postId" type="hidden" value="` + id + `">
+                                            <div>
+                                                <h2>ARE YOU SURE THAT YOU WANT TO DELETE THE POST NAMED</h2>
+                                            </div>
+                                            <div style="margin-top: 20px;">
+                                                <h6>"` + name + `"</h6>
+                                            </div>
+                                            <div>
+                                                <button type="submit" class="round-box deleteButton">
+                                                    YES
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button class="round-box deleteButton" onclick="deleteConfirmOff()">
+                                                    No, it's just a mistake </button>
+                                            </div>
+                                        </center>
+                                    </form>
+                                    </div>
+                                </div>`;
+    }
+
+    function deleteConfirmOff() {
+        deletePost.innerHTML = ``;
+    }
+</script>
+
+
+
+<!-- popup update post -->
+<script>
+    // default set up
+    var popUpUpdate = document.getElementById("popUpUpdate");
+
+    popUpUpdate.style.opacity = 0;
+    popUpUpdate.style.display = "block";
+
+    setTimeout(function () {
+        popUpUpdate.style.display = "none";
+    }, 1000);
+
+
+    function updateOn(id, title, youtube, content, image1, image2, pdfName){
+        
+
+        // input variable
+        // id
+        var postId = document.getElementById("postId");
+        postId.value = id;
+
+        // title
+        var titleUpdate = document.getElementById("titleUpdate");
+        titleUpdate.value = title;
+
+        // youtube
+        var youTubeUpdate = document.getElementById("youTubeUpdate");
+        youTubeUpdate.value = youtube;
+
+        // content
+        var contentUpdate = document.getElementById("contentUpdate");
+        contentUpdate.value = content;
+
+        // image1update
+        var image1Update = document.getElementById("image1Update");
+        image1Update.src = "/" + image1;
+
+        // image2update
+        var image2Update = document.getElementById("image2Update");
+        image2Update.src = "/" + image2;
+
+        // pdfNameupdate
+        var pdfNameUpdate = document.getElementById("pdfNameUpdate");
+        pdfNameUpdate.innerHTML = pdfName;
+
+        // display
+        popUpUpdate.style.opacity = 1;
+        popUpUpdate.style.display = "block";
+    }
+
+
+    function updateOff() {
+        popUpUpdate.style.display = "none";
+    }
+</script>
+
+
+
+<!-- script for upload new update image 1 -->
+<script>
+    imageInput1update.onchange = evt => {
+        // delare variables
+        var imageLabel1Update = document.getElementById("imageLabel1Update");
+        var image1Update = document.getElementById("image1Update");
+
+        // setting up image
+        const [file] = imageInput1update.files;
+        if (file) {
+            // setting environment
+            imageLabel1Update.style.width = 100 + "px";
+            imageLabel1Update.style.height = 100 + "px";
+            imageLabel1Update.style.overflow = "hidden";
+            imageLabel1Update.style.border = "2px solid #38C68B"
+
+            // setting image
+            image1Update.src = URL.createObjectURL(file);
+            image1Update.style.height = 100 + "%";
+            image1Update.style.width = 100 + "%";
+        }
+    }
+
+
+</script>
+
+<!-- script for upload new update image 2 -->
+<script>
+    imageInput2Update.onchange = evt => {
+        // delare variables
+        var imageLabel2Update = document.getElementById("imageLabel2Update");
+        var image2Update = document.getElementById("image2Update");
+
+        // setting up image
+        const [file] = imageInput2Update.files;
+        if (file) {
+            // setting environment
+            imageLabel2Update.style.width = 100 + "px";
+            imageLabel2Update.style.height = 100 + "px";
+            imageLabel2Update.style.overflow = "hidden";
+            imageLabel2Update.style.border = "2px solid #38C68B"
+
+            // setting image
+            image2Update.src = URL.createObjectURL(file);
+            image2Update.style.height = 100 + "%";
+            image2Update.style.width = 100 + "%";
+        }
+    }
+</script>
+
+<!-- script for upload pdf file -->
+<script>
+    var pdfUploadUpdate = document.getElementById("pdfUploadUpdate");
+    var pdfNameUpdate = document.getElementById("pdfNameUpdate");
+
+    pdfUploadUpdate.onchange = function (evt) {
+        // declare variables
+        var pdfFileName = pdfUploadUpdate.files[0].name;
+
+        pdfNameUpdate.innerHTML = pdfFileName;
+    };
+</script>
+
+
+
+
+
+
+{% endblock %}
