@@ -465,7 +465,7 @@ def user_register(request):
         return render(request, 'register.html', context)
 
     else:
-        redirect('index')
+        redirect(index)
 
 @csrf_exempt
 def activate(request):
@@ -484,7 +484,7 @@ def activate(request):
         context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
         return render(request, "informForm.html", context)
 
-    return redirect('index')
+    return redirect(index)
 
 def checkOtpToLogin(request):
     # get all thing from post
@@ -685,55 +685,58 @@ def passChanged(request):
 
 # coordinator
 def coordinator(request):
-    user = request.user
-    userInfos = userInfo.objects.get(user=user)
-    userFeild = userInfos.feild
-    numberOfNotification = notification.objects.filter(user=user).count()
-    posts = post.objects.filter(feild=userFeild)
-    tags = tag.objects.all().order_by('-id')
-    postLikeFeildAmmounts = 0
-    postViewFeildAmmounts = 0
+    if request.user.is_authenticated:
+        user = request.user
+        userInfos = userInfo.objects.get(user=user)
+        userFeild = userInfos.feild
+        numberOfNotification = notification.objects.filter(user=user).count()
+        posts = post.objects.filter(feild=userFeild)
+        tags = tag.objects.all().order_by('-id')
+        postLikeFeildAmmounts = 0
+        postViewFeildAmmounts = 0
 
-    postFeildAmmounts = posts.count()
+        postFeildAmmounts = posts.count()
 
-    for postSingle in posts:
-        postLikeFeildAmmounts = postLikeFeildAmmounts + postSingle.likes
+        for postSingle in posts:
+            postLikeFeildAmmounts = postLikeFeildAmmounts + postSingle.likes
 
-    for postSingle in posts:
-        postViewFeildAmmounts = postViewFeildAmmounts + postSingle.views
+        for postSingle in posts:
+            postViewFeildAmmounts = postViewFeildAmmounts + postSingle.views
 
-    postAmmounts = {}
-    today = datetime.now().date()
+        postAmmounts = {}
+        today = datetime.now().date()
 
-    # 7 days
-    valueYDay = []
-    for i in range(7):
-        date = today - timedelta(days=i)
-        postAmmount = posts.filter(date=date).count()
-        postAmmounts[date] = postAmmount
-        valueYDay.append(postAmmount)
-    valueYDay.reverse()
+        # 7 days
+        valueYDay = []
+        for i in range(7):
+            date = today - timedelta(days=i)
+            postAmmount = posts.filter(date=date).count()
+            postAmmounts[date] = postAmmount
+            valueYDay.append(postAmmount)
+        valueYDay.reverse()
 
-    # 4 weeks
-    valueYWeek = []
-    for i in range(4):
-        startDay = today - timedelta(days=i*7+6)
-        endDay = today - timedelta(days=i*7)
-        postAmmount = posts.filter(date__range=[startDay, endDay]).count()
-        valueYWeek.append(postAmmount)
-    valueYWeek.reverse()
+        # 4 weeks
+        valueYWeek = []
+        for i in range(4):
+            startDay = today - timedelta(days=i*7+6)
+            endDay = today - timedelta(days=i*7)
+            postAmmount = posts.filter(date__range=[startDay, endDay]).count()
+            valueYWeek.append(postAmmount)
+        valueYWeek.reverse()
 
-    # 12 months
-    valueYMonth = []
-    for i in range(12):
-        month_start = today.replace(day=1) - relativedelta(months=i)
-        month_end = month_start.replace(day=calendar.monthrange(month_start.year, month_start.month)[1])
-        postAmmount = posts.filter(date__range=[month_start, month_end]).count()
-        valueYMonth.append(postAmmount)
-    valueYMonth.reverse()   
+        # 12 months
+        valueYMonth = []
+        for i in range(12):
+            month_start = today.replace(day=1) - relativedelta(months=i)
+            month_end = month_start.replace(day=calendar.monthrange(month_start.year, month_start.month)[1])
+            postAmmount = posts.filter(date__range=[month_start, month_end]).count()
+            valueYMonth.append(postAmmount)
+        valueYMonth.reverse()   
 
-    context = {"user": user, "userInfos": userInfos, "numberOfNotification": numberOfNotification, "posts": posts, "tags": tags, "valueYDay": valueYDay, "valueYWeek": valueYWeek, "valueYMonth": valueYMonth, "postFeildAmmounts": postFeildAmmounts, "postLikeFeildAmmounts": postLikeFeildAmmounts, "postViewFeildAmmounts": postViewFeildAmmounts}
-    return render(request, "coordinator.html", context)
+        context = {"user": user, "userInfos": userInfos, "numberOfNotification": numberOfNotification, "posts": posts, "tags": tags, "valueYDay": valueYDay, "valueYWeek": valueYWeek, "valueYMonth": valueYMonth, "postFeildAmmounts": postFeildAmmounts, "postLikeFeildAmmounts": postLikeFeildAmmounts, "postViewFeildAmmounts": postViewFeildAmmounts}
+        return render(request, "coordinator.html", context)
+    else:
+        return redirect(index)
 
 def addNewTags(request):
     if request.method == 'POST':
@@ -753,49 +756,50 @@ def addNewTags(request):
             return redirect(coordinator)
 
 def deletePostCoo(request):
-    user = request.user
-    userInfos = userInfo.objects.get(user=user)
-    postId = request.POST.get("postId")
-    posts = post.objects.get(id=postId)  
-    postOwner = posts.user
-    postOwnerInfo = userInfo.objects.get(user=postOwner) 
+    if request.method == 'POST':
+        user = request.user
+        userInfos = userInfo.objects.get(user=user)
+        postId = request.POST.get("postId")
+        posts = post.objects.get(id=postId)  
+        postOwner = posts.user
+        postOwnerInfo = userInfo.objects.get(user=postOwner) 
 
-    # first image
-    if posts.fistImage is not None:
-        img1 = firstImg.objects.get(id=posts.fistImage.id)
-        img1Url = img1.img.name
-        img1.delete()
-        os.remove(img1Url)
-    
+        # first image
+        if posts.fistImage is not None:
+            img1 = firstImg.objects.get(id=posts.fistImage.id)
+            img1Url = img1.img.name
+            img1.delete()
+            os.remove(img1Url)
+        
 
-    # second one
-    if posts.secondImage is not None:
-        img2 = secondImg.objects.get(id=posts.secondImage.id)
-        img2Url = img2.img.name
-        img2.delete()
-        os.remove(img2Url)
-    
+        # second one
+        if posts.secondImage is not None:
+            img2 = secondImg.objects.get(id=posts.secondImage.id)
+            img2Url = img2.img.name
+            img2.delete()
+            os.remove(img2Url)
+        
 
-    # and pdf
-    if posts.pdf is not None:
-        pdfFile = pdf.objects.get(id=posts.pdf.id)
-        pdfFileUrl = pdfFile.pdf.name
-        pdfFile.delete()
-        os.remove(pdfFileUrl)
+        # and pdf
+        if posts.pdf is not None:
+            pdfFile = pdf.objects.get(id=posts.pdf.id)
+            pdfFileUrl = pdfFile.pdf.name
+            pdfFile.delete()
+            os.remove(pdfFileUrl)
 
-    
+        
 
-    posts.delete()
+        posts.delete()
 
-    postOwnerInfo.PostAmount = postOwnerInfo.PostAmount - 1
-    postOwnerInfo.save()
+        postOwnerInfo.PostAmount = postOwnerInfo.PostAmount - 1
+        postOwnerInfo.save()
 
-     # render after do all
-    inform = "Hey " + user.username + " darling, the post that you deleted should be really sad in it's graves"
-    link = "/"
-    linkText = "Back to Home?"
-    context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
-    return render(request, "informForm.html", context)
+        # render after do all
+        inform = "Hey " + user.username + " darling, the post that you deleted should be really sad in it's graves"
+        link = "/"
+        linkText = "Back to Home?"
+        context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
+        return render(request, "informForm.html", context)
 
 
 
@@ -986,7 +990,7 @@ def updateGif (request, pk):
     userInfos = userInfo.objects.filter(user=user).first()
     userInfos.gif = gifs
     userInfos.save()
-    return redirect('index')
+    return redirect(index)
 
 def updateAvatar(request, pk):
     avatars = get_object_or_404(avatar, pk=pk)
@@ -1630,7 +1634,7 @@ def loginToChangePass(request):
 # log out
 def user_logout(request):
     logout(request)
-    return redirect('index')
+    return redirect(index)
 
 
 
