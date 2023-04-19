@@ -12,7 +12,7 @@ from .models import pdf
 from .models import firstImg
 from .models import secondImg
 from .models import notification
-from .models import tag, tagLink
+from .models import tag, tagLink, feild
 
 # Register your models here.
 admin.site.register(gif)
@@ -30,3 +30,4 @@ admin.site.register(secondImg)
 admin.site.register(notification)
 admin.site.register(tag)
 admin.site.register(tagLink)
+admin.site.register(feild)

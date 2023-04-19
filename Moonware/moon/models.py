@@ -8,6 +8,15 @@ from pkg_resources import require
 
 
 # Create your models here.
+# feild
+class feild(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+
 
 # model gifs
 class gif(models.Model):
@@ -45,7 +54,8 @@ class userInfo(models.Model):
     PostAmount = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     gif = models.ForeignKey(gif, on_delete=models.CASCADE)
-    type = models.CharField(max_length=255, null=True)
+    type = models.CharField(max_length=255, null=True, blank=True)
+    feild = models.ForeignKey(feild, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.email
@@ -125,7 +135,8 @@ class post(models.Model):
     secondImage = models.ForeignKey(secondImg, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    season = models.ForeignKey(season, on_delete=models.CASCADE, null=True)    
+    season = models.ForeignKey(season, on_delete=models.CASCADE, null=True)
+    feild = models.ForeignKey(feild, on_delete=models.CASCADE, null=True, blank=True)    
 
     def __str__(self):
         return self.title
@@ -263,3 +274,14 @@ class tagLink(models.Model):
 
     def __str__(self):
         return self.tag.name
+
+
+
+
+
+
+
+
+
+
+

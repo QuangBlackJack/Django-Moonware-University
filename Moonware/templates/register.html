@@ -178,6 +178,15 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        .sortLink {
+            color: #38C68B;
+        }
+
+        .sortLink:hover {
+            color: #000;
+            background-color: #38C68B;
+        }
     </style>
 </pages-css>
 
@@ -216,7 +225,7 @@
     </div>
 
     <!-- form -->
-    <div class="formCustom" id="form">
+    <div data-aos="fade-right" class="formCustom" id="form">
         <form method="POST">
             {% csrf_token %}
             <!-- title -->
@@ -233,6 +242,25 @@
                     style="width: 50px; height: 50px; margin-left: 10px; border: #38C68B 2px solid;"
                     src="{{ firstAvatar.img.url }}" alt="">
                 {% endif %}
+            </div>
+
+             <!-- feild -->
+             <div style="width: fit-content; height: fit-content;">
+                <div style="color: #38C68B; padding: 5px; font-size: 18px; font-weight: 500; margin-left: 5px;">
+                    Feild:</div>
+                <div class="dropdown d-inline">
+                    <button style="background-color: #38C68B; border: #3d3d3d 2px solid; margin-left: 5px;"
+                        class="btn dropdown-toggle round-box" type="button" id="feild" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        {{ firstFeild.name }}
+                    </button>
+                    <div style="border: #38C68B 2px solid; background-color: rgba(0, 0, 0, 0.712);"
+                        class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for feild in feilds %}
+                            <div class="dropdown-item sortLink" onclick="setFeild(`{{ feild.name }}`, {{ feild.id }} )">{{ feild.name }}</div>    
+                        {% endfor %}                        
+                    </div>
+                </div>
             </div>
 
             <!-- User name -->
@@ -280,11 +308,15 @@
                 </div>
             </div>
 
+           
+
             <!-- avatar -->
             {% if firstAvatar %}
             <input name="avatar" id="avatarValue" style="opacity: 0; position: absolute; top: 0;"
-                class="round-box inputCustom" type="text" value="{{ firstAvatar.id }}" readonly>
+                class="round-box inputCustom" type="hidden" value="{{ firstAvatar.id }}" readonly>
             {% endif %}
+
+            <input id="feildInput" value="{{ firstFeild.id }}"  name="feild" type="hidden">
 
             <!-- button -->
             <button type="submit" class="round-box buttonCustom">Submit</button>
@@ -412,6 +444,19 @@
 
 
 
+
+
+
+
+<script>
+    function setFeild(feildSeted, id){
+        var feild = document.getElementById("feild")
+        var feildInput = document.getElementById("feildInput")
+
+        feild.innerHTML = feildSeted
+        feildInput.value = id
+    }
+</script>
 
 
 

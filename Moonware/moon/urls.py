@@ -1,4 +1,4 @@
-from django.urls import URLPattern, path
+from django.urls import URLPattern, path, re_path
 from . import views
 
 urlpatterns = [
@@ -43,23 +43,25 @@ urlpatterns = [
     path('addTagsFinal/', views.addTagsFinal, name='addTagsFinal'),
     path('deleteTag/', views.deleteTag, name='deleteTag'),
 
-
     # still cant remember wtf is this shit
     path('loginToChangePass/', views.loginToChangePass, name="loginToChangePass"),
     
-    
-    
-    
+    # coordinator
+    path('coordinator/', views.coordinator, name="coordinator"),
+    path('addNewTags/', views.addNewTags, name="addNewTags"),
+    path('deletePostCoo/', views.deletePostCoo, name="deletePostCoo"),
     
     # simplely, just a log out
     path('logout/', views.user_logout, name='logout'),
-
-
 
     # export
     path('exportData/', views.exportData, name='exportData'),
     path('exportExcel/', views.exportExcel, name='exportExcel'),
     path('exportCsv/', views.exportCsv, name='exportCsv'),
     path('exportZip/', views.exportZip, name='exportZip'),
-    
+   
+]
+
+urlpatterns += [
+    re_path(r'^.*/$', views.error_404, name='error_404'),
 ]

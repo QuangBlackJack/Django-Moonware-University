@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-1_&4%o9ze(gxa#5!zvy8on(^c3v_fj=bu5w)amc)u&$cnpv_qs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
+handler404 = 'project_name.views.page_not_found'
 
 
 # Application definition
@@ -141,5 +143,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com' # or whatever email service you're using
 EMAIL_PORT = 587 # or whatever port number your email service uses
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'admeen.moonware@gmail.com' # replace with your own email address
-EMAIL_HOST_PASSWORD = 'disvrsjbtpkiuzgs' # replace with your own email password
+EMAIL_HOST_USER = 'mail.moonware@gmail.com' # replace with your own email address
+EMAIL_HOST_PASSWORD = 'dwdphrihrenjqtpw' # replace with your own email password

@@ -323,6 +323,46 @@
                 color: #38C68B;
             }
         }
+
+        @media screen and (max-width: 1060px) {
+            .grid {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 800px) {
+            .grid {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .grid {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 450px) {
+            .grid {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            .grid {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
     </style>
 </pages-css>
 
@@ -631,22 +671,28 @@
                                                 <!-- icons -->
                                                 <div class="d-inline">
                                                     <!-- facebook -->
-                                                    <div class="d-inline">
-                                                        <img style="height: 30px;" src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}"
-                                                            alt="">
-                                                    </div>
+                                                    <a href="https://www.facebook.com/quang.benjamin.35/" style="text-decoration: none;">
+                                                        <div class="d-inline">
+                                                            <img style="height: 30px;" src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}"
+                                                                alt="">
+                                                        </div>
+                                                    </a>
 
                                                     <!-- instagram -->
-                                                    <div class="d-inline">
-                                                        <img style="height: 30px;" src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}"
-                                                            alt="">
-                                                    </div>
+                                                    <a href="https://www.instagram.com/quangbenjamin.blvck/" style="text-decoration: none;">
+                                                        <div class="d-inline">
+                                                            <img style="height: 30px;" src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}"
+                                                                alt="">
+                                                        </div>
+                                                    </a>
 
                                                     <!-- twitter -->
-                                                    <div class="d-inline">
-                                                        <img style="height: 30px;" src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}"
-                                                            alt="">
-                                                    </div>
+                                                    <a href="https://twitter.com/shark_benjamin" style="text-decoration: none;">
+                                                        <div class="d-inline">
+                                                            <img style="height: 30px;" src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}"
+                                                                alt="">
+                                                        </div>
+                                                    </a>
                                                 </div>
                                             </div>
 

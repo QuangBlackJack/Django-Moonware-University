@@ -146,6 +146,9 @@
                                 <a style="color: #38C68B;" class="dropdown-item" href="/admin/">Manage</a>
                                 <a style="color: #38C68B;" class="dropdown-item" href="/exportData/">Export Data</a>
                             {% endif %}
+                            {% if userInfos.type == "coordinator" %}
+                                <a style="color: #38C68B;" class="dropdown-item" href="/coordinator/">analyse</a>
+                            {% endif %}
                             <a style="color: #38C68B;" class="dropdown-item" href="/notificate">Notifications <label class="rounded-circle" style="margin: 0; background-color: #38C68B; width: 25px; color: #000000;" for=""> <center>{{ numberOfNotification }}</center></label></a>                         
                             <a style="color: #38C68B; border-top: 2px #38C68B solid;" class="dropdown-item" href="/logout">Log Out</a>
                         </div>
@@ -202,20 +205,28 @@
                             <p style="margin: 0; width: fit-content;"><strong>FOLLOW US ON:</strong></p>
                             <div style="width: fit-content;">
                                 <!-- facebook -->
-                                <img class="d-inline" width="30px"
-                                    src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}" alt="">
+                                <a href="https://www.facebook.com/quang.benjamin.35/">
+                                    <img class="d-inline" width="30px"
+                                        src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}" alt="">
+                                </a>
 
                                 <!-- Instagram -->
-                                <img class="d-inline" width="30px"
-                                    src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}" alt="">
+                                <a href="https://www.instagram.com/quangbenjamin.blvck/">
+                                    <img class="d-inline" width="30px"
+                                        src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}" alt="">
+                                </a>
 
                                 <!-- Twitter -->
-                                <img class="d-inline" width="30px"
-                                    src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}" alt="">
+                                <a href="https://twitter.com/shark_benjamin">
+                                    <img class="d-inline" width="30px"
+                                        src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}" alt="">
+                                </a>
 
                                 <!-- Youtube -->
-                                <img class="d-inline" width="30px"
-                                    src="{% static 'images/youtubelogo__2_-removebg-preview.png' %}" alt="">
+                                <a href="https://www.youtube.com/channel/UCD4Kg5SwFthQUt9DKeKYo5A">
+                                    <img class="d-inline" width="30px"
+                                        src="{% static 'images/youtubelogo__2_-removebg-preview.png' %}" alt="">
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -267,8 +278,8 @@
             }
             // If current scroll position is less than previous scroll position, show the div
             else {
-                myDiv.style.zIndex = "1";
-                myDiv.style.opacity = "1";
+                myDiv.style.zIndex = "5";
+                myDiv.style.opacity = "5";
                 myDiv.style.transition = "opacity 0.5s ease-in";
                 myDiv.innerHTML = `<a class="navbar-brand" href="/"><img style="height: 50px;"
                                                 src="{% static 'images/moonware-logo-removebg-preview.png' %}" alt=""></a>
@@ -313,6 +324,9 @@
                                                         {% if userInfos.type == "manager" %}
                                                             <a style="color: #38C68B;" class="dropdown-item" href="/admin/">Manage</a>
                                                             <a style="color: #38C68B;" class="dropdown-item" href="/exportData/">Export Data</a>
+                                                        {% endif %}
+                                                        {% if userInfos.type == "coordinator" %}
+                                                            <a style="color: #38C68B;" class="dropdown-item" href="/coordinator/">analyse</a>
                                                         {% endif %}
                                                         <a style="color: #38C68B;" class="dropdown-item" href="/notificate">Notifications <label class="rounded-circle" style="margin: 0; background-color: #38C68B; width: 25px; color: #000000;" for=""> <center>{{ numberOfNotification }}</center></label></a>                         
                                                         <a style="color: #38C68B; border-top: 2px #38C68B solid;" class="dropdown-item" href="/logout">Log Out</a>

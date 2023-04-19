@@ -23,7 +23,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.http import HttpResponse
 from .models import gif, season, view, like, comment, report, pdf, firstImg, secondImg, notification
-from .models import avatar, tag, tagLink
+from .models import avatar, tag, tagLink, feild
 from .models import userInfo
 from .models import post
 from datetime import datetime, timedelta
@@ -52,7 +52,7 @@ def index(request):
         user = request.user
         gifs = gif.objects.all()
         posts = post.objects.all().order_by('-id')
-        tags = tag.objects.all()
+        tags = tag.objects.all().order_by('-id')
         popularPosts = post.objects.order_by('views').reverse()
         mostLikePosts = post.objects.order_by('likes').reverse()
         avatars = avatar.objects.all()
@@ -139,7 +139,7 @@ def index(request):
                 email_message = EmailMultiAlternatives(
                     'babe, please authenticate before we talk',
                     greeting,
-                    'quangtute2k2@gmail.com', # replace with your own email address
+                    'mail.moonware@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -203,7 +203,7 @@ def contact(request):
                 email_message = EmailMultiAlternatives(
                     'Someone need your help',
                     greeting,
-                    'quangtute2k2@gmail.com', # replace with your own email address
+                    'mail.moonware@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -242,7 +242,7 @@ def contact(request):
                 email_message = EmailMultiAlternatives(
                     'Someone need your help',
                     greeting,
-                    'quangtute2k2@gmail.com', # replace with your own email address
+                    'mail.moonware@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -263,9 +263,11 @@ def contact(request):
 
 def user_register(request):
     if not request.user.is_authenticated:
+        firstFeild = feild.objects.first()
+        feilds = feild.objects.all()
         firstAvatar = avatar.objects.first()
         allAvatars = avatar.objects.all()
-        context = {'allAvatars' : allAvatars, 'firstAvatar' : firstAvatar}
+        context = {'allAvatars' : allAvatars, 'firstAvatar' : firstAvatar, 'firstFeild' : firstFeild, 'feilds' : feilds}
         if request.method == 'POST':
             username = request.POST['username']
             email = request.POST['email']
@@ -273,28 +275,80 @@ def user_register(request):
             password2 = request.POST['password2']
             avatar_id = request.POST['avatar']
             code = request.POST['code']
+            feildImport = request.POST['feild']
+            feildGet = feild.objects.get(id=feildImport)
             avatars = avatar.objects.get(id=avatar_id) 
             gifs = gif.objects.get(id=1)           
 
             # Check if passwords match
             if password1 != password2:
-                messages.error(request, 'Passwords do not match')
-                return redirect('register')
+                # render after do all
+                inform = "huhu password 1 doesn't match with password 2, try again"
+                link = "/register"
+                linkText = "Try Again?"
+                context = {"inform": inform, "link": link, "linkText": linkText}
+                return render(request, "reIputOTP.html", context)
 
             # Check if username is already taken
             elif User.objects.filter(username=username).exists():
-                messages.error(request, 'Username is already taken')
-                return redirect('register')
+                # render after do all
+                inform = "huhu the username has been taken by the faster rabit"
+                link = "/register"
+                linkText = "Try Again?"
+                context = {"inform": inform, "link": link, "linkText": linkText}
+                return render(request, "reIputOTP.html", context)
 
             # Check if email is already taken
             elif User.objects.filter(email=email).exists():
-                messages.error(request, 'Email is already taken')
-                return redirect('register')
+                # render after do all
+                inform = "huhu the email has been taken by the faster rabit"
+                link = "/register"
+                linkText = "Try Again?"
+                context = {"inform": inform, "link": link, "linkText": linkText}
+                return render(request, "reIputOTP.html", context)
 
             # Create new user
             else:
+                # coordinator
+                if code == "anhQuangDepTraiPhongDo":
+                    # generate user
+                    user = User.objects.create_user(username=username, email=email, password=password1)
+                    user.is_active = False
+                    user.save()
+
+                    # generate user info
+                    userInfos = userInfo.objects.create(email=email, password=password1, avatar=avatars, PostAmount=0, user=user, gif=gifs, type="coordinator", feild=feildGet)
+                    userInfos.save()
+
+                    # generate element for email
+                    html_template = 'register_email.html'
+                    mydict = {'username': username, 'csrf_token': csrf.get_token(request)}
+                    greeting = 'nice to meet you,' + username +', lil admin'
+                    html_message = render_to_string(html_template, context=mydict)
+
+                    # Create an EmailMultiAlternatives object to send both plain text and HTML messages
+                    email_message = EmailMultiAlternatives(
+                        'Welcome to moonware, clown',
+                        greeting,
+                        'mail.moonware@gmail.com', # replace with your own email address
+                        [email],
+                    )
+                
+                    # Add the HTML message to the EmailMultiAlternatives object
+                    email_message.attach_alternative(html_message, 'text/html')
+
+                    # Send the email
+                    email_message.send(fail_silently=False)
+
+                    # return information for user to activate their account
+                    # render after do all
+                    inform = "Hey " + username + "! Your account is almost done, let's get back to your gmail to activate it"
+                    context = {"inform": inform, "user": user, "userInfos": userInfos}
+                    return render(request, "informForm.html", context)
+
+
                 # admin
-                if code == "anhQuangDepTraiso1":
+                elif code == "anhQuangDepTraiso1":
                     # generate user
                     user = User.objects.create_user(username=username, email=email, password=password1)
                     user.is_staff = True
@@ -316,7 +370,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, king',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'mail.moonware@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -333,7 +387,7 @@ def user_register(request):
                     return render(request, "informForm.html", context)
 
                 # staff
-                if code == "anhQuangDepTraiBoDoiThe":
+                elif code == "anhQuangDepTraiBoDoiThe":
                     # generate user
                     user = User.objects.create_user(username=username, email=email, password=password1)
                     user.is_staff = True
@@ -355,7 +409,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, lord',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'mail.moonware@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -379,7 +433,7 @@ def user_register(request):
                     user.save()
 
                     # generate user info
-                    userInfos = userInfo.objects.create(email=email, password=password1, avatar=avatars, PostAmount=0, user=user, gif=gifs)
+                    userInfos = userInfo.objects.create(email=email, password=password1, avatar=avatars, PostAmount=0, user=user, gif=gifs, feild=feildGet)
                     userInfos.save()
 
                     # generate element for email
@@ -392,7 +446,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, homie',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'mail.moonware@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -440,8 +494,6 @@ def checkOtpToLogin(request):
     otp = request.GET.get('otp')
     password = userInfos.password
     formattedExpireTime = request.GET.get('formattedExpireTime')
-
-    
 
     # create elements for comparing timeline for OTP
     expireTime = datetime.strptime(formattedExpireTime, '%Y-%m-%d %H:%M:%S')
@@ -520,7 +572,7 @@ def forgotPassword(request):
         email_message = EmailMultiAlternatives(
             'Come on, it just username and password, just 2 lines',
             greeting,
-            'quangtute2k2@gmail.com', # replace with your own email address
+            'mail.moonware@gmail.com', # replace with your own email address
             [email],
         )
     
@@ -631,6 +683,132 @@ def passChanged(request):
 
 
 
+# coordinator
+def coordinator(request):
+    user = request.user
+    userInfos = userInfo.objects.get(user=user)
+    userFeild = userInfos.feild
+    numberOfNotification = notification.objects.filter(user=user).count()
+    posts = post.objects.filter(feild=userFeild)
+    tags = tag.objects.all().order_by('-id')
+    postLikeFeildAmmounts = 0
+    postViewFeildAmmounts = 0
+
+    postFeildAmmounts = posts.count()
+
+    for postSingle in posts:
+        postLikeFeildAmmounts = postLikeFeildAmmounts + postSingle.likes
+
+    for postSingle in posts:
+        postViewFeildAmmounts = postViewFeildAmmounts + postSingle.views
+
+    postAmmounts = {}
+    today = datetime.now().date()
+
+    # 7 days
+    valueYDay = []
+    for i in range(7):
+        date = today - timedelta(days=i)
+        postAmmount = posts.filter(date=date).count()
+        postAmmounts[date] = postAmmount
+        valueYDay.append(postAmmount)
+    valueYDay.reverse()
+
+    # 4 weeks
+    valueYWeek = []
+    for i in range(4):
+        startDay = today - timedelta(days=i*7+6)
+        endDay = today - timedelta(days=i*7)
+        postAmmount = posts.filter(date__range=[startDay, endDay]).count()
+        valueYWeek.append(postAmmount)
+    valueYWeek.reverse()
+
+    # 12 months
+    valueYMonth = []
+    for i in range(12):
+        month_start = today.replace(day=1) - relativedelta(months=i)
+        month_end = month_start.replace(day=calendar.monthrange(month_start.year, month_start.month)[1])
+        postAmmount = posts.filter(date__range=[month_start, month_end]).count()
+        valueYMonth.append(postAmmount)
+    valueYMonth.reverse()   
+
+    context = {"user": user, "userInfos": userInfos, "numberOfNotification": numberOfNotification, "posts": posts, "tags": tags, "valueYDay": valueYDay, "valueYWeek": valueYWeek, "valueYMonth": valueYMonth, "postFeildAmmounts": postFeildAmmounts, "postLikeFeildAmmounts": postLikeFeildAmmounts, "postViewFeildAmmounts": postViewFeildAmmounts}
+    return render(request, "coordinator.html", context)
+
+def addNewTags(request):
+    if request.method == 'POST':
+        tagname = request.POST.get('tag', '')
+
+        if tagname == '':
+            # render after do all
+            inform = "please add name to tag before u add it"
+            link = "/coordinator"
+            linkText = "Try Again?"
+            context = {"inform": inform, "link": link, "linkText": linkText}
+            return render(request, "reIputOTP.html", context)
+        else:
+            tags = tag.objects.create(name=tagname)
+            tags.save()
+
+            return redirect(coordinator)
+
+def deletePostCoo(request):
+    user = request.user
+    userInfos = userInfo.objects.get(user=user)
+    postId = request.POST.get("postId")
+    posts = post.objects.get(id=postId)  
+    postOwner = posts.user
+    postOwnerInfo = userInfo.objects.get(user=postOwner) 
+
+    # first image
+    if posts.fistImage is not None:
+        img1 = firstImg.objects.get(id=posts.fistImage.id)
+        img1Url = img1.img.name
+        img1.delete()
+        os.remove(img1Url)
+    
+
+    # second one
+    if posts.secondImage is not None:
+        img2 = secondImg.objects.get(id=posts.secondImage.id)
+        img2Url = img2.img.name
+        img2.delete()
+        os.remove(img2Url)
+    
+
+    # and pdf
+    if posts.pdf is not None:
+        pdfFile = pdf.objects.get(id=posts.pdf.id)
+        pdfFileUrl = pdfFile.pdf.name
+        pdfFile.delete()
+        os.remove(pdfFileUrl)
+
+    
+
+    posts.delete()
+
+    postOwnerInfo.PostAmount = postOwnerInfo.PostAmount - 1
+    postOwnerInfo.save()
+
+     # render after do all
+    inform = "Hey " + user.username + " darling, the post that you deleted should be really sad in it's graves"
+    link = "/"
+    linkText = "Back to Home?"
+    context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
+    return render(request, "informForm.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -679,7 +857,7 @@ def otpToChangePass(request):
             email_message = EmailMultiAlternatives(
                 'OTP for new password',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'mail.moonware@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -916,6 +1094,7 @@ def createPost(request):
             user = request.user
             userInfos = userInfo.objects.get(user=user)
             seasonTitle = request.POST["seasonTitle"]
+            feilds = userInfos.feild
 
             if seasonTitle != "none":            
                 seasons = season.objects.get(title=seasonTitle)
@@ -946,18 +1125,42 @@ def createPost(request):
 
                 createOn = datetime.now()
 
-                posts = post.objects.create(title=title, content=content, youTube=youTube, pdf=pdf2, fistImage=fistImage2, secondImage=secondImage2, date=createOn, user=user, season=seasons)
+                posts = post.objects.create(title=title, content=content, youTube=youTube, pdf=pdf2, fistImage=fistImage2, secondImage=secondImage2, date=createOn, user=user, season=seasons, feild=feilds)
                 posts.save()
 
                 userInfos.PostAmount = userInfos.PostAmount + 1
                 userInfos.save()
 
-                # render after do all
-                inform = "Hehe " + user.username + " handsome, you have just create new post? nice nice hehe"
-                link = "/"
-                linkText = "Home"
-                context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
-                return render(request, "informForm.html", context)
+                coordinators = userInfo.objects.filter(type="coordinator")
+                userInfosOnly = coordinators.filter(feild=feilds)
+                for userss in userInfosOnly:                
+                    # generate element for email
+                    html_template = 'coordinatorEmail.html'
+                    mydict = {'username': userss.user.username, 'csrf_token': csrf.get_token(request)}
+                    greeting = 'someone posted new post,' + userss.user.username +', lil coordinator'
+                    html_message = render_to_string(html_template, context=mydict)
+                    email = userss.user.email
+
+                    # Create an EmailMultiAlternatives object to send both plain text and HTML messages
+                    email_message = EmailMultiAlternatives(
+                        'Someone add new post',
+                        greeting,
+                        'mail.moonware@gmail.com', # replace with your own email address
+                        [email],
+                    )
+                
+                    # Add the HTML message to the EmailMultiAlternatives object
+                    email_message.attach_alternative(html_message, 'text/html')
+
+                    # Send the email
+                    email_message.send(fail_silently=False)
+
+                    # render after do all
+                    inform = "Hehe " + user.username + " handsome, you have just create new post? nice nice hehe"
+                    link = "/"
+                    linkText = "Home"
+                    context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
+                    return render(request, "informForm.html", context)
             else:
                 # render after do all
                 inform = "You know what? " + user.username + " stupid, when it said no season available, there actually no season available"
@@ -1180,7 +1383,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'mail.moonware@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1221,7 +1424,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'mail.moonware@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1268,7 +1471,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'mail.moonware@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1308,7 +1511,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'mail.moonware@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1360,7 +1563,7 @@ def createComment(request):
     email_message = EmailMultiAlternatives(
         'hallo babe, somethings happened on your post',
         greeting,
-        'quangtute2k2@gmail.com', # replace with your own email address
+        'mail.moonware@gmail.com', # replace with your own email address
         [email],
     )
 
@@ -1656,6 +1859,13 @@ def exportZip(request):
 
 
 
+
+
+
+
+
+def error_404(request):
+    return render(request, '404.html', {}, status=404)
 
 
 

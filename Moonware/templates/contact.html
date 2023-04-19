@@ -242,7 +242,7 @@
     <!-- main part -->
     <div style="height: 100%; z-index: 1; width: 100%;">
         <div class="row homeMadeContainer" style=" margin: 0; margin-top: 50px;">
-            <div class="col-auto" id="firstPart">
+            <div data-aos="fade-right" class="col-auto" id="firstPart">
                 <div class="quangAvatar">
                     <img class="rounded-top" style="width: 100%;  border: 3px solid #38C68B;"
                         src="{% static 'images/IMG_3725.JPG' %}" alt="">
@@ -299,20 +299,28 @@
                     <div style="width: 100%; margin-top: 10px;">
                         <div style="width: 100%; display: grid; grid-template-columns: repeat(4, 1fr);">
                             <center>
-                                <img class="subLogo" src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}"
-                                    alt="">
+                                <a href="https://www.facebook.com/quang.benjamin.35/">
+                                    <img class="subLogo" src="{% static 'images/facebooklogo__2_-removebg-preview.png' %}"
+                                        alt="">
+                                </a>
                             </center>
                             <center>
-                                <img class="subLogo" src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}"
-                                    alt="">
+                                <a href="https://twitter.com/shark_benjamin">
+                                    <img class="subLogo" src="{% static 'images/twitterlogo__2_-removebg-preview.png' %}"
+                                        alt="">
+                                </a>
                             </center>
                             <center>
-                                <img class="subLogo" src="{% static 'images/youtubelogo__2_-removebg-preview.png' %}"
-                                    alt="">
+                                <a href="https://www.youtube.com/channel/UCD4Kg5SwFthQUt9DKeKYo5A">
+                                    <img class="subLogo" src="{% static 'images/youtubelogo__2_-removebg-preview.png' %}"
+                                        alt="">
+                                </a>
                             </center>
-                            <center>
-                                <img class="subLogo" src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}"
-                                    alt="">
+                            <center>                                
+                                <a href="https://www.instagram.com/quangbenjamin.blvck/">
+                                    <img class="subLogo" src="{% static 'images/instagramlogo__2_-removebg-preview.png' %}"
+                                        alt="">
+                                </a>
                             </center>
                         </div>
                     </div>
@@ -322,7 +330,7 @@
 
 
 
-            <div id="secondPart" class="col" style="color: #38C68B; width: 100%;">
+            <div data-aos="fade-left" id="secondPart" class="col" style="color: #38C68B; width: 100%;">
                 <form method="post">
                     {% csrf_token %}
                     <div>

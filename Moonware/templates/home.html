@@ -536,6 +536,7 @@
             height: 0px;
             width: 0px;
         }
+        
     </style>
 </pages-css>
 
@@ -714,13 +715,11 @@
                 <div onclick="show()" data-aos="fade-right" class="rounded-right phoneMenu">
                     <img height="100%" src="https://www.pngmagic.com/product_images/arrow-png-download.png" alt="">
                 </div>
-
-
             </div>
 
             <!-- main content -->
             <div id="mainContent" class="col-md-10" style=" background-color: rgb(58, 58, 58); min-height: 1vh; padding: 0;">
-                <div class="tagContainer horizontal-scroll-wrapper">
+                <div class="tagContainer">
                     <strong>Regular tags:</strong>
                     {% for tag in tags %}
                         <a href="/showByTag/{{ tag.id }}">
@@ -1061,6 +1060,9 @@
                                 <a style="color: #38C68B;" class="dropdown-item" href="/admin/">Manage</a>
                                 <a style="color: #38C68B;" class="dropdown-item" href="/exportData/">Export Data</a>
                             {% endif %}
+                            {% if userInfos.type == "coordinator" %}
+                                <a style="color: #38C68B;" class="dropdown-item" href="/coordinator/">analyse</a>
+                            {% endif %}
                             <a style="color: #38C68B;" class="dropdown-item" href="/notificate">Notifications <label class="rounded-circle" style="margin: 0; background-color: #38C68B; width: 25px; color: #000000;" for=""> <center>{{ numberOfNotification }}</center></label></a>                         
                             <a style="color: #38C68B; border-top: 2px #38C68B solid;" class="dropdown-item" href="/logout">Log Out</a>
                         </div>
@@ -1117,11 +1119,21 @@
                                             style="width: fit-content; min-height: 100vh; background-color: rgba(0, 0, 0, 0.719); border-right: 3px #38C68B solid; color: #38C68B; height: 100%;">
                                             <div style="padding: 30px; ">
                                                 <div style="margin-top: 100px;">
-                                                    <h4>Home</h4>
-                                                    <h4>About Us</h4>
-                                                    <h4>Account</h4>
-                                                    <h4>Contact</h4>
-                                                    <h4>Storage</h4>
+                                                    <a href="/" style="text-decoration: none; color: #38C68B;">
+                                                        <h4>Home</h4>
+                                                    </a>
+                                                    <a href="/aboutUs/" style="text-decoration: none; color: #38C68B;">
+                                                        <h4>About Us</h4>
+                                                    </a>
+                                                    <a href="/account/" style="text-decoration: none; color: #38C68B;">
+                                                        <h4>Account</h4>
+                                                    </a>
+                                                    <a href="/contact/" style="text-decoration: none; color: #38C68B;">
+                                                        <h4>Contact</h4>
+                                                    </a>
+                                                    <a href="/storage/" style="text-decoration: none; color: #38C68B;">
+                                                        <h4>Storage</h4>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
