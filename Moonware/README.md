@@ -8,7 +8,7 @@ change "yourEmail" with ur email, and "yourEmailServiceKey" with the key in appp
 *remember to set 2nd authentication before doing that
 
 
-sorry that I can't add those two line in this project, my two gmails was blocked because of leaking :"((
+sorry that I can't add those two line in this project, my two gmails was blocked because of being leaked :"((
 
 oh, and dont forget to add the library when u run the code (it will ask u, so u can get the library name)
 do it like:
