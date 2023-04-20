@@ -4,3 +4,7 @@ EMAIL_HOST_USER=[yourEmail]
 EMAIL_HOST_PASSWORD=[yourEmailServiceKey]
 
 sorry that I can't add those two line in this project, my two gmails was blocked because of leaking :"((
+
+oh, and dont forget to add the library when u run the code (it will ask u, so u can get the library name)
+do it like:
+"git install [libraryName]"
