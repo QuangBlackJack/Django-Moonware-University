@@ -701,55 +701,64 @@ def passChanged(request):
 # coordinator
 def coordinator(request):
     if request.user.is_authenticated:
-        user = request.user
-        userInfos = userInfo.objects.get(user=user)
-        userFeild = userInfos.feild
-        numberOfNotification = notification.objects.filter(user=user).count()
-        posts = post.objects.filter(feild=userFeild)
-        tags = tag.objects.all().order_by('-id')
-        postLikeFeildAmmounts = 0
-        postViewFeildAmmounts = 0
+        
+            user = request.user
+            userInfos = userInfo.objects.get(user=user)
+            userFeild = userInfos.feild
+            numberOfNotification = notification.objects.filter(user=user).count()
+            posts = post.objects.filter(feild=userFeild)
+            tags = tag.objects.all().order_by('-id')
+            postLikeFeildAmmounts = 0
+            postViewFeildAmmounts = 0
 
-        postFeildAmmounts = posts.count()
+            postFeildAmmounts = posts.count()
 
-        for postSingle in posts:
-            postLikeFeildAmmounts = postLikeFeildAmmounts + postSingle.likes
+            if userInfos.type == "coordinator":
+                for postSingle in posts:
+                    postLikeFeildAmmounts = postLikeFeildAmmounts + postSingle.likes
 
-        for postSingle in posts:
-            postViewFeildAmmounts = postViewFeildAmmounts + postSingle.views
+                for postSingle in posts:
+                    postViewFeildAmmounts = postViewFeildAmmounts + postSingle.views
 
-        postAmmounts = {}
-        today = datetime.now().date()
+                postAmmounts = {}
+                today = datetime.now().date()
 
-        # 7 days
-        valueYDay = []
-        for i in range(7):
-            date = today - timedelta(days=i)
-            postAmmount = posts.filter(date=date).count()
-            postAmmounts[date] = postAmmount
-            valueYDay.append(postAmmount)
-        valueYDay.reverse()
+                # 7 days
+                valueYDay = []
+                for i in range(7):
+                    date = today - timedelta(days=i)
+                    postAmmount = posts.filter(date=date).count()
+                    postAmmounts[date] = postAmmount
+                    valueYDay.append(postAmmount)
+                valueYDay.reverse()
 
-        # 4 weeks
-        valueYWeek = []
-        for i in range(4):
-            startDay = today - timedelta(days=i*7+6)
-            endDay = today - timedelta(days=i*7)
-            postAmmount = posts.filter(date__range=[startDay, endDay]).count()
-            valueYWeek.append(postAmmount)
-        valueYWeek.reverse()
+                # 4 weeks
+                valueYWeek = []
+                for i in range(4):
+                    startDay = today - timedelta(days=i*7+6)
+                    endDay = today - timedelta(days=i*7)
+                    postAmmount = posts.filter(date__range=[startDay, endDay]).count()
+                    valueYWeek.append(postAmmount)
+                valueYWeek.reverse()
 
-        # 12 months
-        valueYMonth = []
-        for i in range(12):
-            month_start = today.replace(day=1) - relativedelta(months=i)
-            month_end = month_start.replace(day=calendar.monthrange(month_start.year, month_start.month)[1])
-            postAmmount = posts.filter(date__range=[month_start, month_end]).count()
-            valueYMonth.append(postAmmount)
-        valueYMonth.reverse()   
+                # 12 months
+                valueYMonth = []
+                for i in range(12):
+                    month_start = today.replace(day=1) - relativedelta(months=i)
+                    month_end = month_start.replace(day=calendar.monthrange(month_start.year, month_start.month)[1])
+                    postAmmount = posts.filter(date__range=[month_start, month_end]).count()
+                    valueYMonth.append(postAmmount)
+                valueYMonth.reverse()   
 
-        context = {"user": user, "userInfos": userInfos, "numberOfNotification": numberOfNotification, "posts": posts, "tags": tags, "valueYDay": valueYDay, "valueYWeek": valueYWeek, "valueYMonth": valueYMonth, "postFeildAmmounts": postFeildAmmounts, "postLikeFeildAmmounts": postLikeFeildAmmounts, "postViewFeildAmmounts": postViewFeildAmmounts}
-        return render(request, "coordinator.html", context)
+                context = {"user": user, "userInfos": userInfos, "numberOfNotification": numberOfNotification, "posts": posts, "tags": tags, "valueYDay": valueYDay, "valueYWeek": valueYWeek, "valueYMonth": valueYMonth, "postFeildAmmounts": postFeildAmmounts, "postLikeFeildAmmounts": postLikeFeildAmmounts, "postViewFeildAmmounts": postViewFeildAmmounts}
+                return render(request, "coordinator.html", context)
+            else:
+                # render after do all
+                inform = "Sorry " + user.username + " , you have to be coordinator to use this function. Now, get back home"
+                link = "../"
+                linkText = "back Home"
+                context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
+                return render(request, "informForm.html", context)
     else:
         return redirect(index)
 
@@ -1662,20 +1671,23 @@ def user_logout(request):
 
 
 def exportData(request):
-    user = request.user
-    userInfos = userInfo.objects.get(user=user)
-    numberOfNotification = notification.objects.filter(user=user).count()
-    if userInfos.type == "manager":
-        seasons = season.objects.all()
-        context = {"user": user, "userInfos": userInfos, "numberOfNotification": numberOfNotification, "seasons": seasons}
-        return render(request, "exportData.html", context)
+    if request.user.is_authenticated:
+        user = request.user
+        userInfos = userInfo.objects.get(user=user)
+        numberOfNotification = notification.objects.filter(user=user).count()
+        if userInfos.type == "manager":
+            seasons = season.objects.all()
+            context = {"user": user, "userInfos": userInfos, "numberOfNotification": numberOfNotification, "seasons": seasons}
+            return render(request, "exportData.html", context)
+        else:
+            # render after do all
+            inform = "Sorry " + user.username + " , you have to be manager to use this function. Now, get back home"
+            link = "../"
+            linkText = "back Home"
+            context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
+            return render(request, "informForm.html", context)
     else:
-         # render after do all
-        inform = "Sorry " + user.username + " , you have to be manager to use this function. Now, get back home"
-        link = "../"
-        linkText = "back Home"
-        context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
-        return render(request, "informForm.html", context)
+        return redirect(index)
 
 
 # excel file
