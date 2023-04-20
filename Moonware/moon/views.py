@@ -701,7 +701,6 @@ def passChanged(request):
 # coordinator
 def coordinator(request):
     if request.user.is_authenticated:
-        
             user = request.user
             userInfos = userInfo.objects.get(user=user)
             userFeild = userInfos.feild
@@ -908,7 +907,7 @@ def otpToChangePass(request):
             return render(request, "informForm.html", context)
     else:
         # render after do all
-        inform = "Oh no " + password1 +","+userInfos.password+ " darling, do you got any problem with your alzheimer on remembering your password"
+        inform = "Oh no " + username + " darling, do you got any problem with your alzheimer on remembering your password"
         link = "/account"
         linkText = "Try Again?"
         context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
@@ -916,11 +915,29 @@ def otpToChangePass(request):
 
 @csrf_exempt
 def checkOtpToPassword(request):
-    # get all thing from post
-    username = request.GET.get('username')
-    otp = request.GET.get('otp')
-    password2 = request.GET.get('password2')
-    formattedExpireTime = request.GET.get('formattedExpireTime')
+    # username
+    if request.GET.get('username') is not None:
+        username = request.GET.get('username')
+    else:
+        username = request.POST.get('username')
+
+    # otp
+    if request.GET.get('otp') is not None:
+        otp = request.GET.get('otp')
+    else:
+        otp = request.POST.get('otp')
+
+    # expired time
+    if request.GET.get('formattedExpireTime') is not None:
+        formattedExpireTime = request.GET.get('formattedExpireTime')
+    else:
+        formattedExpireTime = request.POST.get('formattedExpireTime')
+
+    # password
+    if request.GET.get('password2') is not None:
+        password2 = request.GET.get('password2')
+    else:
+        password2 = request.POST.get('password2')
 
     user = User.objects.get(username=username)
     userInfos = userInfo.objects.get(user=user)
@@ -953,9 +970,9 @@ def checkOtpToPassword(request):
             else:
                 # render after do all
                 inform = "Oh no " + username + " darling, your OTP was wrong, are you hacker? or you got some alzheimer?"
-                link = "/account"
+                link = "../checkOtpToPassword"
                 linkText = "Try Again?"
-                context = {"inform": inform, "link": link, "linkText": linkText, "username": username, "formattedExpireTime": formattedExpireTime, "otp": otp}
+                context = {"inform": inform, "link": link, "linkText": linkText, "username": username, "password2": password2, "formattedExpireTime": formattedExpireTime, "otp": otp}
                 return render(request, "reIputOTP.html", context)
         return render (request, "checkOtp.html", context)
 

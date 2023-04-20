@@ -71,6 +71,9 @@
             <div>
                 <form action="{{ link }}" method="GET">
                     <input name="username" value="{{ username }}" type="hidden">
+                    {% if password2 %}
+                        <input name="password2" value="{{ password2 }}" type="hidden">
+                    {% endif %}
                     <input name="formattedExpireTime" value="{{ formattedExpireTime }}" type="hidden">
                     <input type="hidden" name="otp" value="{{ otp }}">
                     <button class="round-box backButton"> {{ linkText }}
