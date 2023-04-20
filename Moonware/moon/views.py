@@ -139,7 +139,7 @@ def index(request):
                 email_message = EmailMultiAlternatives(
                     'babe, please authenticate before we talk',
                     greeting,
-                    'quangtute2k2@gmail.com', # replace with your own email address
+                    'quangbenjamin.blvck@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -203,7 +203,7 @@ def contact(request):
                 email_message = EmailMultiAlternatives(
                     'Someone need your help',
                     greeting,
-                    'quangtute2k2@gmail.com', # replace with your own email address
+                    'quangbenjamin.blvck@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -242,7 +242,7 @@ def contact(request):
                 email_message = EmailMultiAlternatives(
                     'Someone need your help',
                     greeting,
-                    'quangtute2k2@gmail.com', # replace with your own email address
+                    'quangbenjamin.blvck@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -330,7 +330,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, clown',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'quangbenjamin.blvck@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -370,7 +370,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, king',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'quangbenjamin.blvck@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -409,7 +409,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, lord',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'quangbenjamin.blvck@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -446,7 +446,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, homie',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'quangbenjamin.blvck@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -587,7 +587,7 @@ def forgotPassword(request):
         email_message = EmailMultiAlternatives(
             'Come on, it just username and password, just 2 lines',
             greeting,
-            'quangtute2k2@gmail.com', # replace with your own email address
+            'quangbenjamin.blvck@gmail.com', # replace with your own email address
             [email],
         )
     
@@ -876,7 +876,7 @@ def otpToChangePass(request):
             email_message = EmailMultiAlternatives(
                 'OTP for new password',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'quangbenjamin.blvck@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1164,7 +1164,7 @@ def createPost(request):
                     email_message = EmailMultiAlternatives(
                         'Someone add new post',
                         greeting,
-                        'quangtute2k2@gmail.com', # replace with your own email address
+                        'quangbenjamin.blvck@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -1402,7 +1402,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'quangbenjamin.blvck@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1443,7 +1443,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'quangbenjamin.blvck@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1490,7 +1490,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'quangbenjamin.blvck@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1530,7 +1530,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'quangtute2k2@gmail.com', # replace with your own email address
+                'quangbenjamin.blvck@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1582,7 +1582,7 @@ def createComment(request):
     email_message = EmailMultiAlternatives(
         'hallo babe, somethings happened on your post',
         greeting,
-        'quangtute2k2@gmail.com', # replace with your own email address
+        'quangbenjamin.blvck@gmail.com', # replace with your own email address
         [email],
     )
 
