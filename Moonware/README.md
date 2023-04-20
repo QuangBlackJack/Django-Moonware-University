@@ -4,7 +4,7 @@ EMAIL_HOST_USER=[yourEmail]
 
 EMAIL_HOST_PASSWORD=[yourEmailServiceKey]
 
-change "yourEmail" with ur email, and "yourEmailServiceKey" in apppasswords (in "https://myaccount.google.com/apppasswords")
+change "yourEmail" with ur email, and "yourEmailServiceKey" with the key in apppasswords (in "https://myaccount.google.com/apppasswords")
 *remember to set 2nd authentication before doing that
 
 
