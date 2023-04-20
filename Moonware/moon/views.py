@@ -139,7 +139,7 @@ def index(request):
                 email_message = EmailMultiAlternatives(
                     'babe, please authenticate before we talk',
                     greeting,
-                    'mail.moonware@gmail.com', # replace with your own email address
+                    'quangtute2k2@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -203,7 +203,7 @@ def contact(request):
                 email_message = EmailMultiAlternatives(
                     'Someone need your help',
                     greeting,
-                    'mail.moonware@gmail.com', # replace with your own email address
+                    'quangtute2k2@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -242,7 +242,7 @@ def contact(request):
                 email_message = EmailMultiAlternatives(
                     'Someone need your help',
                     greeting,
-                    'mail.moonware@gmail.com', # replace with your own email address
+                    'quangtute2k2@gmail.com', # replace with your own email address
                     [email],
                 )
             
@@ -330,7 +330,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, clown',
                         greeting,
-                        'mail.moonware@gmail.com', # replace with your own email address
+                        'quangtute2k2@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -370,7 +370,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, king',
                         greeting,
-                        'mail.moonware@gmail.com', # replace with your own email address
+                        'quangtute2k2@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -409,7 +409,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, lord',
                         greeting,
-                        'mail.moonware@gmail.com', # replace with your own email address
+                        'quangtute2k2@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -446,7 +446,7 @@ def user_register(request):
                     email_message = EmailMultiAlternatives(
                         'Welcome to moonware, homie',
                         greeting,
-                        'mail.moonware@gmail.com', # replace with your own email address
+                        'quangtute2k2@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -487,13 +487,28 @@ def activate(request):
     return redirect(index)
 
 def checkOtpToLogin(request):
-    # get all thing from post
-    username = request.GET.get('username')
+    # username
+    if request.GET.get('username') is not None:
+        username = request.GET.get('username')
+    else:
+        username = request.POST.get('username')
+
+    # otp
+    if request.GET.get('otp') is not None:
+        otp = request.GET.get('otp')
+    else:
+        otp = request.POST.get('otp')
+
+    # expired time
+    if request.GET.get('formattedExpireTime') is not None:
+        formattedExpireTime = request.GET.get('formattedExpireTime')
+    else:
+        formattedExpireTime = request.POST.get('formattedExpireTime')
+
+    # get all thing from post  
     user = User.objects.get(username=username)
-    userInfos = userInfo.objects.get(user=user)
-    otp = request.GET.get('otp')
-    password = userInfos.password
-    formattedExpireTime = request.GET.get('formattedExpireTime')
+    userInfos = userInfo.objects.get(user=user)   
+    password = userInfos.password   
 
     # create elements for comparing timeline for OTP
     expireTime = datetime.strptime(formattedExpireTime, '%Y-%m-%d %H:%M:%S')
@@ -572,7 +587,7 @@ def forgotPassword(request):
         email_message = EmailMultiAlternatives(
             'Come on, it just username and password, just 2 lines',
             greeting,
-            'mail.moonware@gmail.com', # replace with your own email address
+            'quangtute2k2@gmail.com', # replace with your own email address
             [email],
         )
     
@@ -861,7 +876,7 @@ def otpToChangePass(request):
             email_message = EmailMultiAlternatives(
                 'OTP for new password',
                 greeting,
-                'mail.moonware@gmail.com', # replace with your own email address
+                'quangtute2k2@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -931,8 +946,8 @@ def checkOtpToPassword(request):
                 inform = "Oh no " + username + " darling, your OTP was wrong, are you hacker? or you got some alzheimer?"
                 link = "/account"
                 linkText = "Try Again?"
-                context = {"inform": inform, "user": user, "userInfos": userInfos, "link": link, "linkText": linkText}
-                return render(request, "informForm.html", context)
+                context = {"inform": inform, "link": link, "linkText": linkText, "username": username, "formattedExpireTime": formattedExpireTime, "otp": otp}
+                return render(request, "reIputOTP.html", context)
         return render (request, "checkOtp.html", context)
 
     else:
@@ -1149,7 +1164,7 @@ def createPost(request):
                     email_message = EmailMultiAlternatives(
                         'Someone add new post',
                         greeting,
-                        'mail.moonware@gmail.com', # replace with your own email address
+                        'quangtute2k2@gmail.com', # replace with your own email address
                         [email],
                     )
                 
@@ -1387,7 +1402,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'mail.moonware@gmail.com', # replace with your own email address
+                'quangtute2k2@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1428,7 +1443,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'mail.moonware@gmail.com', # replace with your own email address
+                'quangtute2k2@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1475,7 +1490,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'mail.moonware@gmail.com', # replace with your own email address
+                'quangtute2k2@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1515,7 +1530,7 @@ def likeOrDislike(request):
             email_message = EmailMultiAlternatives(
                 'hallo babe, somethings happened on your post',
                 greeting,
-                'mail.moonware@gmail.com', # replace with your own email address
+                'quangtute2k2@gmail.com', # replace with your own email address
                 [email],
             )
 
@@ -1567,7 +1582,7 @@ def createComment(request):
     email_message = EmailMultiAlternatives(
         'hallo babe, somethings happened on your post',
         greeting,
-        'mail.moonware@gmail.com', # replace with your own email address
+        'quangtute2k2@gmail.com', # replace with your own email address
         [email],
     )
 
